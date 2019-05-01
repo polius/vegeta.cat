@@ -1,0 +1,23 @@
+{
+    "Title": "Blue Dragon",
+    "Openings": [
+        {
+            "Title": "Opening 1",
+            "Url": "Blue+Dragon/openings/Blue+Dragon+-+Opening+1+(Catal%C3%A0).mp4"
+        },
+        {
+            "Title": "Opening 2",
+            "Url": "Blue+Dragon/openings/Blue+Dragon+-+Opening+2+(Catal%C3%A0).mp4"
+        }
+    ],
+    "Endings": [
+        {
+            "Title": "Ending 1",
+            "Url": "Blue+Dragon/endings/Blue+Dragon+-+Ending+1+(Catal%C3%A0).mp4"
+        },
+        {
+            "Title": "Ending 2",
+            "Url": "Blue+Dragon/endings/Blue+Dragon+-+Ending+2+(Catal%C3%A0).mp4"
+        }
+    ]
+}
