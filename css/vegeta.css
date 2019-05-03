@@ -170,6 +170,18 @@
   .easy-autocomplete {
     max-width : 200000px;
   }
+  #index-menu{
+    font-size: 1.1em;
+  }
+  #series-menu{
+    font-size: 1.1em;
+  }
+  #random-menu{
+    font-size: 1.1em;
+  }
+  #about-menu{
+    font-size: 1.1em;
+  }
 }
 
 /* COMMON Theme */
@@ -217,7 +229,7 @@
   text-align: center;
   text-decoration: none;
   width: 12px;
-  background-color: #4caf50;
+  background-color: #16a085;
   width: 100%;
 }
 

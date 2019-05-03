@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+	<title>VEGETA.cat - Sèries en català</title>
+	<meta charset="utf-8">
+	<meta name="author" content="VEGETA.cat">
+	<meta name="description" content="VEGETA.cat és la pàgina web a on recordaràs moments únics de sèries en català" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
+	<link rel="icon" href="img/fav.png">
+	
+	<link rel="stylesheet" type="text/css" href="css/reset.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<link rel="stylesheet" type="text/css" href="css/vegeta.css">
+	
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/latinize.js"></script>
+	<script type="text/javascript" src="js/jquery.easy-autocomplete.js"></script>
+	<script type="text/javascript" src="js/jquery.lazy.min.js"></script>
+	<script type="text/javascript" src="js/vegeta.js"></script>
+	<script type="text/javascript" src="js/jquery.scrollUp.js"></script>
+	
+	<script>
+		$(document).ready(function () {
+			$.scrollUp();
+			$('#search').load('search.html');
+			$('#menu').load('menu.html', function () {
+				$('#index-menu').removeClass('selected');
+				$('#series-menu').removeClass('selected');
+				$('#random-menu').removeClass('selected');
+				$('#about-menu').addClass('selected');
+				$('#legal-menu').removeClass('selected');
+			});
+		});
+	</script>
+</head>
+
+<body>
+	<div id="menu"></div>
+	<section class="main clearfix" id="map">
+		<div id="search"></div>
+		<section class="wrapper">
+			<div class="content theme-content" style="text-align: left;">
+				<h1>Sobre VEGETA.cat</h1>
+				<p style="line-height: 160%;">
+					<b>VEGETA.cat</b> és una pàgina web sense ànim de lucre que té com a objectiu recopilar totes aquelles sèries en català que es van emetre entre els anys 1990, 2000 i 2010 i que van marcar a tota una generació.
+					<br><br>
+					Realitzar aquest projecte ha estat possible gràcies a totes aquelles persones que de forma desinteressada han penjat openings i endings en català a la xarxa. Els drets de tots els continguts penjats en aquesta web queden reservats a tots aquests usuaris anònims. 
+					<br><br>
+					Creus que hi falta alguna sèrie, opening/ending o en tens un de més qualitat? <br><br>Ens el pots fer arribar a través de <b>vegeta.web@gmail.com</b>
+				</p>
+			</div>
+		</section>
+	</section>
+</body>
+</html>

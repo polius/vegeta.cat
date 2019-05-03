@@ -19,12 +19,13 @@
   
 /*  General CSS*/
 body{
-    background: #fff;
+    background: #FFFAFA;
 }
 
 .wrapper{
     width: 92.72727272727273%;
     margin: 0 auto;
+    background-color: #FFFAFA;
 }
 
 header ul.social li a,
@@ -203,15 +204,6 @@ h5, h6          { font-weight: bolder }
 
 }
 
-#menu_icon,
-#search_icon,
-.close_menu{
-    background: url('../img/close_icon.png');
-    background-size: 40px 40px;
-    width: 40px;
-    height: 40px;
-}
-
 #menu_icon
 {
     background: url('../img/menu_icon.png');
@@ -221,7 +213,7 @@ h5, h6          { font-weight: bolder }
 }
 #menu_icon:hover
 {
-    opacity: 0.5;
+    opacity: 0.7;
 }
 
 header .close_menu
@@ -230,27 +222,6 @@ header .close_menu
     background-size: 40px 40px !important;
     height: 40px !important;
     width: 40px !important;
-}
-
-#search_icon
-{
-    background: url('../img/search_icon.png');
-    background-size: 40px 40px;
-    height: 40px;
-    width: 40px;
-}
-#search_icon:hover
-{
-    opacity: 0.5;
-}
-
-
-#menu_icon,
-#search_icon{    
-    background-position: 0 0;
-}
-.close_menu{
-    background-position: -41px 0!important;
 }
 
 /*  Main  */
@@ -263,7 +234,7 @@ header .close_menu
     box-sizing: border-box;
     position: relative;
     z-index: 55;
-    background: #f6f6f6;
+    background: #FFFAFA;
     clear: both;
 }
 
@@ -432,7 +403,7 @@ h1:hover{
     font-size: 15px;
     line-height: 22px;
     padding: 30px 30px;
-    background: #fff;
+    background: #FFFAFA;
 
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -457,11 +428,10 @@ h1:hover{
 .content h5,
 .content h6{
     color: #4b4848;
-    font-family: "raleway-semibold", arial;
-    font-weight: bold;
+    font-family: "raleway", arial;
     line-height: 28px;
     margin-bottom: 30px;
-
+    font-weight: 100;
 }
 
 /*  Contact page map  */
@@ -538,12 +508,12 @@ h1:hover{
         display: block;
         width: 100%;
         min-width : 300px;
-        min-height: 100px;
+        min-height: 75px;
         padding: 0;
         position: relative;
     }
     header .logo{
-        margin: 12px 0 0 30px;
+        margin: 0px 0 0 30px;
         float: left;
     }
     header .logo .menu-logo {
@@ -556,7 +526,7 @@ h1:hover{
     header #search_icon,
     header .close_menu{
         float: right;
-        margin: 30px 30px 0 0;
+        margin: 18px 30px 0 0;
     }
     
     header nav{
@@ -588,7 +558,7 @@ h1:hover{
         background: #f7f5f5;
     }
     header nav ul li a:hover{
-        background: #f7f5f5;
+        background: #ec644b;
     }
     #menu_icon,
     #search_icon,
@@ -624,7 +594,7 @@ h1:hover{
     header #search_icon,
     header .close_menu{
         float: right;
-        margin: 30px 20px 0 0;
+        margin: 18px 20px 0 0;
     }
 }
 
@@ -633,9 +603,8 @@ h1:hover{
     header #search_icon,
     header .close_menu{
         float: right;
-        margin: 30px 10px 0 0;
+        margin: 18px 10px 0 0;
     }
-
     header .logo{
         margin-left: 10px;
     }

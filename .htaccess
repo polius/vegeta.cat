@@ -1,12 +1,12 @@
 RewriteEngine on
 
-# Redirect "/serie.php?s=" to "/serie"   
-RewriteRule ^serie/(.*)$  /serie.php?s=$1 [L]
+# Redirect "/serie.html?s=" to "/serie"   
+RewriteRule ^serie/(.*)$  /serie.html?s=$1 [L]
 
-# Externally redirect "/file.php" to "/file"   
-RewriteCond %{THE_REQUEST} /([^.]+)\.php [NC]
+# Externally redirect "/file.html" to "/file"   
+RewriteCond %{THE_REQUEST} /([^.]+)\.html [NC]
 RewriteRule ^/%1 [NC,L,R]
 
-# Internally map "/file" back to "/file.php"
-RewriteCond %{REQUEST_FILENAME}.php -f
-RewriteRule ^(.*?)/?$ /$1.php [NC,L]
+# Internally map "/file" back to "/file.html"
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^(.*?)/?$ /$1.html [NC,L]

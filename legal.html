@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+	<title>VEGETA.cat - Sèries en català</title>
+	<meta charset="utf-8">
+	<meta name="author" content="VEGETA.cat">
+	<meta name="description" content="VEGETA.cat és la pàgina web a on recordaràs moments únics de sèries en català" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
+	<link rel="icon" href="img/fav.png">
+	
+	<link rel="stylesheet" type="text/css" href="css/reset.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<link rel="stylesheet" type="text/css" href="css/vegeta.css">
+	
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/latinize.js"></script>
+	<script type="text/javascript" src="js/jquery.easy-autocomplete.js"></script>
+	<script type="text/javascript" src="js/jquery.lazy.min.js"></script>
+	<script type="text/javascript" src="js/vegeta.js"></script>
+	<script type="text/javascript" src="js/jquery.scrollUp.js"></script>
+	
+	<script>
+		$(document).ready(function () {
+			$.scrollUp();
+			$('#search').load('search.html');
+			$('#menu').load('menu.html', function () {
+				$('#index-menu').removeClass('selected');
+				$('#series-menu').removeClass('selected');
+				$('#random-menu').removeClass('selected');
+				$('#about-menu').removeClass('selected');
+				$('#legal-menu').addClass('selected');
+			});
+		});
+	</script>
+</head>
+
+<body>
+	<div id="menu"></div>
+	<section class="main clearfix" id="map">
+		<div id="search"></div>
+		<section class="wrapper">
+			<div class="content theme-content" style="text-align:left;">
+				<h1>Nota legal</h1>
+				<p>
+					Tots els continguts (vídeos i imatges) que apareixen en aquesta pàgina web han estat creats per usuaris anònims de forma desinteressada, ja sigui mitjançant la plataforma YouTube com altres plataformes similars. 
+					<br><br>
+					Tot el material que s'ha usat per tal d'elaborar aquest projecte es troba actualment visible i públic per a tothom en altres plataformes de distribució.
+					<br><br>
+					Aquest projecte ha estat creat sense cap ànim de lucre i tots els continguts usats no són propietaris de VEGETA.cat
+					<br><br>
+					Qualsevol reclamació que es vulgui realitzar per tal de demanar la retirada d'algun vídeo o imatge existent a la web, serà avaluada i, conseqüentment si és validada, es procedirà a la retirada del contingut específic.
+					<br><br>
+					Aquesta petició es podrà realitzar mitjançant <b>vegeta.web@gmail.com</b>
+				</p>
+			</div>
+		</section>
+	</section>
+</body>
+</html>

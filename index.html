@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+	<title>VEGETA.cat - Sèries en català</title>
+	<meta charset="utf-8">
+	<meta name="author" content="VEGETA.cat">
+	<meta name="description" content="VEGETA.cat és la pàgina web a on recordaràs moments únics de sèries en català" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
+	<link rel="icon" href="img/fav.png">
+	
+	<link rel="stylesheet" type="text/css" href="css/reset.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<link rel="stylesheet" type="text/css" href="css/vegeta.css">
+	
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/latinize.js"></script>
+	<script type="text/javascript" src="js/jquery.easy-autocomplete.js"></script>
+	<script type="text/javascript" src="js/jquery.lazy.min.js"></script>
+	<script type="text/javascript" src="js/vegeta.js"></script>
+	<script type="text/javascript" src="js/jquery.scrollUp.js"></script>
+
+	<script>
+	$(document).ready(function () {
+	    $.scrollUp();
+		$('#search').load('search.html');
+		$('#menu').load('menu.html', function() {
+			$('#index-menu').addClass('selected');
+			$('#series-menu').removeClass('selected');
+			$('#random-menu').removeClass('selected');
+			$('#contact-menu').removeClass('selected');
+			$('#about-menu').removeClass('selected');
+			$('#legal-menu').removeClass('selected');
+		});
+	});
+	</script>
+
+    <script>
+	var series_json, series_json_rand;
+	$(document).ready(function() {
+		$.getJSON('res/series.json', function(data) {
+			//data is the JSON string
+			series_json = data.slice(0)
+			series_json_rand = series_json.slice(0);
+
+			function append_series(num) {
+				var title;
+				if (series_json_rand.length < num) num = series_json_rand.length;
+				for(var e = 0; e < num; ++e)
+				{
+					var i = Math.floor(Math.random() * series_json_rand.length);
+					title = series_json_rand[i]['Title'];
+
+					$('#series_content').append('<div class=\"work\" id=\"'+title+'\"><a href=\"/serie/'+encodeURIComponent(title)+'\"><img data-src=\"res/'+title+'/thumb.png\" class=\"media lazy\" alt=\"\"/><div class=\"caption\"><div class=\"work_title\"><h1>'+title+'</h1></div></div></a></div>');
+					series_json_rand.splice(i,1);
+					
+					$("div[id='"+title+"']").find("div").css("opacity","0");
+					$('.main .work .media').lazy({
+						effect: "fadeIn",
+					    effectTime: 500,
+					    threshold: 0,
+						afterLoad: function(element) {
+					        element.closest('div').find("div").fadeTo(100,1);
+					    }
+			        });
+				}		
+			}
+			append_series(15);
+			$(window).scroll(function() {
+			   if($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
+			       append_series(10);
+			   }
+			});
+		});
+	});
+	</script>
+</head>
+<body>
+	<div id="menu"></div>
+	<section class="main clearfix" id="series_content">
+		<div id="search"></div>
+	</section>
+</body>
+</html>
