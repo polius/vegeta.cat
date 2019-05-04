@@ -272,10 +272,10 @@ header .close_menu
 .main .work a:hover .caption{
 
     background: rgba(211,211,211,0.5); /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(transparent, rgba(211,211,211,255,0.5),rgba(211,211,211,0.5), transparent); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(transparent, rgba(211,211,211,0.5),rgba(211,211,211,0.5), transparent); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(transparent, rgba(211,211,2115,0.5),rgba(211,211,211,0.5), transparent); /* For Firefox 3.6 to 20 */
-    background : linear-gradient(transparent, rgba(211,211,211,0.5),rgba(211,211,211,0.5), transparent); /* new */
+    background: -webkit-linear-gradient(transparent, rgba(211,211,211,255,0.3),rgba(211,211,211,0.3), transparent); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(transparent, rgba(211,211,211,0.3),rgba(211,211,211,0.3), transparent); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(transparent, rgba(211,211,2115,0.3),rgba(211,211,211,0.3), transparent); /* For Firefox 3.6 to 20 */
+    background : linear-gradient(transparent, rgba(211,211,211,0.3),rgba(211,211,211,0.3), transparent); /* new */
 }
 
 
@@ -288,11 +288,11 @@ header .close_menu
     /*bottom: 10%;*/
     top: 40%;
 
-   background: rgba(20,20,20,0.5); /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(transparent, rgba(20,20,20,0.5),rgba(20,20,20,0.5), transparent); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(transparent, rgba(20,20,20,0.5),rgba(20,20,20,0.5), transparent); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(transparent, rgba(20,20,20,0.5),rgba(20,20,20,0.5), transparent); /* For Firefox 3.6 to 20 */
-    background : linear-gradient(transparent, rgba(20,20,20,0.5),rgba(20,20,20,0.5), transparent); /* new */
+    background: rgba(20,20,20,0.5); /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(transparent, rgba(20,20,20,0.3),rgba(20,20,20,0.3), transparent); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(transparent, rgba(20,20,20,0.3),rgba(20,20,20,0.3), transparent); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(transparent, rgba(20,20,20,0.3),rgba(20,20,20,0.3), transparent); /* For Firefox 3.6 to 20 */
+    background : linear-gradient(transparent, rgba(20,20,20,0.3),rgba(20,20,20,0.3), transparent); /* new */
 }
 
 .main .work .caption h1{

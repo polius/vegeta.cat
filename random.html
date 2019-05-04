@@ -20,55 +20,50 @@
 	<script type="text/javascript" src="js/vegeta.js"></script>
 	
 	<script>
-		$(document).ready(function () {
-			$('#menu').load('menu.html', function () {
+		$(document).ready(function() {
+			// Init Menu
+			$('#menu').load('menu.html', function() {
 				$('#index-menu').removeClass('selected');
 				$('#series-menu').removeClass('selected');
 				$('#random-menu').addClass('selected');
 				$('#about-menu').removeClass('selected');
 				$('#legal-menu').removeClass('selected');
 			});
-		});
-	</script>
 
-	<script>
-		var series_json, serie_random, media_origin;
-		var is_random = 1;
+			// Load origin.json
+			$.getJSON('origin.json', function(data) {
+			var origin = JSON.parse(JSON.stringify(data));
 
-		$(document).ready(function() 
-		{
-			$.getJSON('res/series.json', function(data) {
-				series_json = data;
+				// Load series.json
+				$.getJSON('series.json', function(data) {
+					var series_json = JSON.parse(JSON.stringify(data));
+					var keys = Object.keys(series_json);
 
-				$("#player").on('ended', function(event) {
-				  loadSerie();
-				});
+					$("#player").on('ended', function(event) {
+						loadSerie();
+					});
 
-				loadSerie();
-			});		
-		});
+					function loadSerie()
+					{
+						var random_index = Math.floor(Math.random() * keys.length);
+						var serie_random = series_json[keys[random_index]];
 
-		function loadSerie()
-		{
-			var random_index = Math.floor(Math.random()*series_json.length);
+						var openings = serie_random['Openings'].length;
+						var endings = serie_random['Endings'].length;
 
-			$.getJSON("res/origin.json", function(origin) {
-				media_origin = origin['cloudfront'];
-				$.getJSON("/res/"+series_json[random_index]['Title']+"/content.json", function(data_serie) {
-					serie_random = data_serie;
+						var random = Math.floor(Math.random() * (openings + endings));
+						var url = (random < openings) ? origin['origin'] + serie_random['Openings'][random]['Url'] : origin['origin'] + serie_random['Endings'][(random - openings)]['Url'];
+						var player = document.getElementById("player");
 
-					var openings = serie_random['Openings'].length;
-					var endings = serie_random['Endings'].length;
+						player.src = url;
+						player.play();
+					}
 
-					var random = Math.floor(Math.random() * (openings+endings));
-					var url = (random < openings) ? media_origin + serie_random['Openings'][random]['Url'] : media_origin + serie_random['Endings'][(random-openings)]['Url'];
-					var player = document.getElementById("player");
-
-					player.src = url;
-					player.play();
+					// Load Random Serie!
+					loadSerie();
 				});
 			});
-		}
+		});
 	</script>
 </head>
 

@@ -21,113 +21,155 @@
 	<script type="text/javascript" src="js/jquery.scrollUp.js"></script>
 	
 	<script>
-		$(document).ready(function () {
+		$(document).ready(function() {
+			// Init ScrollUp
 			$.scrollUp();
-			$('#search').load('search.html');
-			$('#menu').load('menu.html', function () {
-				$('#index-menu').addClass('selected');
+
+			// Init Menu
+			$('#menu').load('menu.html', function() {
+				$('#index-menu').removeClass('selected');
 				$('#series-menu').removeClass('selected');
 				$('#random-menu').removeClass('selected');
-				$('#contact-menu').removeClass('selected');
 				$('#about-menu').removeClass('selected');
 				$('#legal-menu').removeClass('selected');
 			});
-		});
-	</script>
 
-	<script>
-	var serie_json;
-	var media_origin;
+			// Load origin.json
+			$.getJSON('origin.json', function(data) {
+			var origin = JSON.parse(JSON.stringify(data));
 
-	$(document).ready(function() {
-		var get = getParameterByName('s');
+				// Load series.json
+				$.getJSON('series.json', function(data) {
+					var series_json = JSON.parse(JSON.stringify(data));
+					var keys = Object.keys(series_json);
 
-		if (get == null)
-		{
-			var pathname = window.location.pathname;
-			get = pathname.replace("/serie/", "");
-		}
+					//////////////////////
+					/// SEARCH - start ///
+					//////////////////////
+					var matching_series = [];
+					var options = {
+						data: keys,
+						list: {
+							match: {
+								enabled: true
+							},
+							maxNumberOfElements: 10
+						},
+						adjustWidth : false,
+						template: {
+							type: "custom",
+							method: function(value, item) {
+								return "<a class=\"search-item\" href=\"/serie/" + item + "\">" + "<img class=\"search-image\" src=\"" + origin['origin'] + encodeURIComponent(item) + "/thumb_mini.png\"/>" +	"<span class=\"search-text\">" + value + "</span>" + "</a>";
+							}
+						}
+					};
+					$("#buscador_serie").easyAutocomplete(options);
+					$("#search").fadeIn();
+					$(".wrapper").fadeIn();
+			
+					document.getElementById('buscador_serie').onkeypress = function(e)
+					{
+						if (!e) e = window.event;
+						var keyCode = e.keyCode || e.which;
+						if (keyCode == '13') 
+						{
+							var element = document.getElementsByClassName("easy-autocomplete-container");
+							$(element[0]).children().css({"display": "none"});
 
-		var player = document.getElementById("player");
+							// Hide mobile keyboard
+							document.activeElement.blur();
 
-		$.getJSON("res/origin.json", function(origin) {
-			media_origin = origin['cloudfront'];
-			$.getJSON("res/"+ get +"/content.json", function(data) {
-				serie_json = data;
-				load_serie_openings();
-				load_serie_endings();
+							$('#series_content').html("");
+							for (var i in matching_series)
+							{
+								$('#series_content').append('<div class=\"work\" id=\"'+matching_series[i]+'\"><a href=\"/serie/'+matching_series[i]+'\"><img src=\"res/'+matching_series[i]+'/thumb.png\" class=\"media\" alt=\"\"/><div class=\"caption\"><div class=\"work_title\"><h1>'+matching_series[i]+'</h1></div></div></a></div>');
+							}
+						}
+					}
+					////////////////////
+					/// SEARCH - end ///
+					////////////////////
 
-				$("#serie-title").html(serie_json['Title']);
+					var player = document.getElementById("player");
 
-				var url = (serie_json['Openings'].length > 0) ? media_origin + serie_json['Openings'][0].Url : media_origin + serie_json['Endings'][0].Url;
-				player.src = url;
-				
-				var serie_list_width = $("#serie-list").css("width");
-				$("#player").css("width", serie_list_width);
+					var serie_name = getParameterByName('s');
+					if (serie_name == null) serie_name = window.location.pathname.replace("/serie/", "");
+					
+					var serie_info = series_json[serie_name]
 
-				player.style.height = (player.offsetWidth * 0.5) + "px";
+					load_serie_openings();
+					load_serie_endings();
+
+					$("#serie-title").html(serie_name);
+
+					var url = (serie_info['Openings'].length > 0) ? origin['origin'] + serie_info['Openings'][0].Url : origin['origin'] + serie_info['Endings'][0].Url;
+					player.src = url;
+						
+					var serie_list_width = $("#serie-list").css("width");
+					$("#player").css("width", serie_list_width);
+					player.style.height = (player.offsetWidth * 0.5) + "px";
+
+					function getParameterByName(name, url)
+					{
+							if (!url) url = window.location.href;
+							name = name.replace(/[\[\]]/g, "\\$&");
+							var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+									results = regex.exec(url);
+							if (!results) return null;
+							if (!results[2]) return '';
+							return decodeURIComponent(results[2].replace(/\+/g, " "));
+					}
+
+					function load_serie_openings()
+					{
+						for (var i = 0; i < serie_info['Openings'].length; ++i)
+						{
+							var row_color = (i % 2 == 0) ? 240 : 250;
+							var html_to_append = "<ul style=\"list-style-type: none;\">";
+							html_to_append += "<li style=\"cursor: pointer; cursor: hand;\">";
+							html_to_append += "<div class=\"eac-item\">";
+							html_to_append += "<a onClick=\"play_video('"+ origin['origin'] + serie_info['Openings'][i].Url + "')\" class=\"series-item\" style=\"display:block; background:rgb(" + row_color+", " + row_color+", " + row_color + ") none repeat scroll 0 0;\"><table style=\"width: 100%;\"><tr>";
+							html_to_append += "<td><span class=\"serie-list\">" + serie_info['Openings'][i].Title + "</span></td>";
+							html_to_append += "</tr></table></a></div></li></ul>";
+							html_to_append += "<ul style=\"height:1px; background-color:#DCDCDC;\"></ul>";
+
+							$("#eac-conatainer-series-list-openings").append(html_to_append);
+						}
+					}
+
+					function load_serie_endings()
+					{
+						for (var i = 0; i < serie_info['Endings'].length; ++i)
+						{
+							var row_color = (i % 2 == 0) ? 240 : 250;
+							var html_to_append = "<ul style=\"list-style-type: none;\">";
+							html_to_append += "<li style=\"cursor: pointer; cursor: hand;\">";
+							html_to_append += "<div class=\"eac-item\">";
+							html_to_append += "<a onClick=\"play_video('"+ origin['origin'] + serie_info['Endings'][i].Url + "')\" class=\"series-item\" style=\"display:block; background:rgb(" + row_color+", " + row_color + ", " + row_color + ") none repeat scroll 0 0;\"><table style=\"width: 100%;\"><tr>";
+							html_to_append += "<td><span class=\"serie-list\">" + serie_info['Endings'][i].Title + "</span></td>";
+							html_to_append += "</tr></table></a></div></li></ul>";
+							html_to_append += "<ul style=\"height:1px; background-color:#DCDCDC;\"></ul>";
+							
+							$("#eac-conatainer-series-list-endings").append(html_to_append);
+						}
+					}
+
+					function play_video(url)
+					{
+						var serie_list_width = $("#serie-list").css("width");
+						$("#player").css("width", serie_list_width);
+						player.style.height = (player.offsetWidth * 0.5) + "px";
+						player.src = url;
+					}
+
+					$(window).resize(function() {
+						var serie_list_width = $("#serie-list").css("width");
+						$("#player").css("width", serie_list_width);
+						player.style.height = (player.offsetWidth * 0.5) + "px";
+					});
+				});
 			});
 		});
-
-		function getParameterByName(name, url)
-		{
-		    if (!url) url = window.location.href;
-		    name = name.replace(/[\[\]]/g, "\\$&");
-		    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-		        results = regex.exec(url);
-		    if (!results) return null;
-		    if (!results[2]) return '';
-		    return decodeURIComponent(results[2].replace(/\+/g, " "));
-		}
-
-		function load_serie_openings()
-		{
-			for (var i = 0; i < serie_json['Openings'].length; ++i)
-			{
-				var row_color = (i % 2 == 0) ? 240 : 250;
-				var html_to_append = "<ul style=\"list-style-type: none;\">";
-				html_to_append += "<li style=\"cursor: pointer; cursor: hand;\">";
-				html_to_append += "<div class=\"eac-item\">";
-				html_to_append += "<a onClick=\"play_video('"+ media_origin + serie_json['Openings'][i].Url+"')\" class=\"series-item\" style=\"display:block; background:rgb("+row_color+", "+row_color+", "+row_color+") none repeat scroll 0 0;\"><table style=\"width: 100%;\"><tr>";
-				html_to_append += "<td><span class=\"serie-list\">"+serie_json['Openings'][i].Title+"</span></td>";
-				html_to_append += "</tr></table></a></div></li></ul>";
-				html_to_append += "<ul style=\"height:1px; background-color:#DCDCDC;\"></ul>";
-
-				$("#eac-conatainer-series-list-openings").append(html_to_append);
-			}
-		}
-
-		function load_serie_endings()
-		{
-			for (var i = 0; i < serie_json['Endings'].length; ++i)
-			{
-				var row_color = (i % 2 == 0) ? 240 : 250;
-				var html_to_append = "<ul style=\"list-style-type: none;\">";
-				html_to_append += "<li style=\"cursor: pointer; cursor: hand;\">";
-				html_to_append += "<div class=\"eac-item\">";
-				html_to_append += "<a onClick=\"play_video('"+ media_origin + serie_json['Endings'][i].Url+"')\" class=\"series-item\" style=\"display:block; background:rgb("+row_color+", "+row_color+", "+row_color+") none repeat scroll 0 0;\"><table style=\"width: 100%;\"><tr>";
-				html_to_append += "<td><span class=\"serie-list\">"+serie_json['Endings'][i].Title+"</span></td>";
-				html_to_append += "</tr></table></a></div></li></ul>";
-				html_to_append += "<ul style=\"height:1px; background-color:#DCDCDC;\"></ul>";
-				
-				$("#eac-conatainer-series-list-endings").append(html_to_append);
-			}
-		}
-
-		$(window).resize(function() {
-			var serie_list_width = $("#serie-list").css("width");
-			$("#player").css("width", serie_list_width);
-		  player.style.height = (player.offsetWidth * 0.5) + "px";
-		});
-	});
-
-	function play_video(url)
-	{
-		var serie_list_width = $("#serie-list").css("width");
-		$("#player").css("width", serie_list_width);
-		player.style.height = (player.offsetWidth * 0.5) + "px";
-		player.src = url;
-	}
 	</script>
 </head>
 
@@ -135,9 +177,11 @@
 	<div id="menu"></div>
 
 	<section class="main clearfix">
-		<div id="search"></div>
+		<div id="search" style="display:none;">
+			<input id="buscador_serie" placeholder="Buscar sèries ..."/>
+		</div>
 
-		<section class="wrapper">
+		<section class="wrapper" style="display:none;">
 			<div class="content" style="padding-top:15px;">
 				<div>
 					<h1 id="serie-title" class="title" style="font-weight:normal;"></h1>

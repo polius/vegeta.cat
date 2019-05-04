@@ -20,15 +20,75 @@
 	<script type="text/javascript" src="js/jquery.scrollUp.js"></script>
 	
 	<script>
-		$(document).ready(function () {
+		$(document).ready(function() {
+			// Init ScrollUp
 			$.scrollUp();
-			$('#search').load('search.html');
-			$('#menu').load('menu.html', function () {
+
+			// Init Menu
+			$('#menu').load('menu.html', function() {
 				$('#index-menu').removeClass('selected');
 				$('#series-menu').removeClass('selected');
 				$('#random-menu').removeClass('selected');
 				$('#about-menu').removeClass('selected');
 				$('#legal-menu').addClass('selected');
+			});
+
+			// Load origin.json
+			$.getJSON('origin.json', function(data) {
+				var origin = JSON.parse(JSON.stringify(data));
+
+				// Load series.json
+				$.getJSON('series.json', function(data) {
+					var series_json = JSON.parse(JSON.stringify(data));
+					var keys = Object.keys(series_json);
+
+					//////////////////////
+					/// SEARCH - start ///
+					//////////////////////
+					var matching_series = [];
+					var options = {
+						data: keys,
+						list: {
+							match: {
+								enabled: true
+							},
+							maxNumberOfElements: 10
+						},
+						adjustWidth : false,
+						template: {
+							type: "custom",
+							method: function(value, item) {
+								return "<a class=\"search-item\" href=\"/serie/" + item + "\">" + "<img class=\"search-image\" src=\"" + origin['origin'] + encodeURIComponent(item) + "/thumb_mini.png\"/>" +	"<span class=\"search-text\">" + value + "</span>" + "</a>";
+							}
+						}
+					};
+					$("#buscador_serie").easyAutocomplete(options);
+					$("#search").fadeIn();
+					$(".wrapper").fadeIn();
+		
+					document.getElementById('buscador_serie').onkeypress = function(e)
+					{
+						if (!e) e = window.event;
+						var keyCode = e.keyCode || e.which;
+						if (keyCode == '13') 
+						{
+							var element = document.getElementsByClassName("easy-autocomplete-container");
+							$(element[0]).children().css({"display": "none"});
+
+							// Hide mobile keyboard
+							document.activeElement.blur();
+
+							$('#series_content').html("");
+							for (var i in matching_series)
+							{
+								$('#series_content').append('<div class=\"work\" id=\"'+matching_series[i]+'\"><a href=\"/serie/'+matching_series[i]+'\"><img src=\"res/'+matching_series[i]+'/thumb.png\" class=\"media\" alt=\"\"/><div class=\"caption\"><div class=\"work_title\"><h1>'+matching_series[i]+'</h1></div></div></a></div>');
+							}
+						}
+					}
+					////////////////////
+					/// SEARCH - end ///
+					////////////////////
+				});
 			});
 		});
 	</script>
@@ -37,8 +97,10 @@
 <body>
 	<div id="menu"></div>
 	<section class="main clearfix" id="map">
-		<div id="search"></div>
-		<section class="wrapper">
+		<div id="search" style="display:none;">
+			<input id="buscador_serie" placeholder="Buscar sèries ..."/>
+		</div>
+		<section class="wrapper" style="display:none;">
 			<div class="content theme-content" style="text-align:left;">
 				<h1>Nota legal</h1>
 				<p>

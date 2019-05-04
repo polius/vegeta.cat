@@ -20,64 +20,117 @@
 	<script type="text/javascript" src="js/jquery.scrollUp.js"></script>
 
 	<script>
-	$(document).ready(function () {
-	    $.scrollUp();
-		$('#search').load('search.html');
-		$('#menu').load('menu.html', function() {
-			$('#index-menu').addClass('selected');
-			$('#series-menu').removeClass('selected');
-			$('#random-menu').removeClass('selected');
-			$('#contact-menu').removeClass('selected');
-			$('#about-menu').removeClass('selected');
-			$('#legal-menu').removeClass('selected');
-		});
-	});
-	</script>
+		$(document).ready(function() {
+			// Init ScrollUp
+			$.scrollUp();
 
-    <script>
-	var series_json, series_json_rand;
-	$(document).ready(function() {
-		$.getJSON('res/series.json', function(data) {
-			//data is the JSON string
-			series_json = data.slice(0)
-			series_json_rand = series_json.slice(0);
+			// Init Menu
+			$('#menu').load('menu.html', function() {
+				$('#index-menu').addClass('selected');
+				$('#series-menu').removeClass('selected');
+				$('#random-menu').removeClass('selected');
+				$('#about-menu').removeClass('selected');
+				$('#legal-menu').removeClass('selected');
+			});
 
-			function append_series(num) {
-				var title;
-				if (series_json_rand.length < num) num = series_json_rand.length;
-				for(var e = 0; e < num; ++e)
-				{
-					var i = Math.floor(Math.random() * series_json_rand.length);
-					title = series_json_rand[i]['Title'];
+			// Load origin.json
+			$.getJSON('origin.json', function(data) {
+				var origin = JSON.parse(JSON.stringify(data));
 
-					$('#series_content').append('<div class=\"work\" id=\"'+title+'\"><a href=\"/serie/'+encodeURIComponent(title)+'\"><img data-src=\"res/'+title+'/thumb.png\" class=\"media lazy\" alt=\"\"/><div class=\"caption\"><div class=\"work_title\"><h1>'+title+'</h1></div></div></a></div>');
-					series_json_rand.splice(i,1);
-					
-					$("div[id='"+title+"']").find("div").css("opacity","0");
-					$('.main .work .media').lazy({
-						effect: "fadeIn",
-					    effectTime: 500,
-					    threshold: 0,
-						afterLoad: function(element) {
-					        element.closest('div').find("div").fadeTo(100,1);
-					    }
-			        });
-				}		
-			}
-			append_series(15);
-			$(window).scroll(function() {
-			   if($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
-			       append_series(10);
-			   }
+				// Load series.json
+				$.getJSON('series.json', function(data) {
+					var series_json = JSON.parse(JSON.stringify(data));
+					var keys = Object.keys(series_json);
+
+					//////////////////////
+					/// SEARCH - start ///
+					//////////////////////
+					var matching_series = [];
+					var options = {
+						data: keys,
+						list: {
+							match: {
+								enabled: true
+							},
+							maxNumberOfElements: 10
+						},
+						adjustWidth : false,
+						template: {
+							type: "custom",
+							method: function(value, item) {
+								return "<a class=\"search-item\" href=\"/serie/" + item + "\">" + "<img class=\"search-image\" src=\"" + origin['origin'] + encodeURIComponent(item) + "/thumb_mini.png\"/>" +	"<span class=\"search-text\">" + value + "</span>" + "</a>";
+							}
+						}
+					};
+					$("#buscador_serie").easyAutocomplete(options);
+					$("#search").fadeIn();
+		
+					document.getElementById('buscador_serie').onkeypress = function(e)
+					{
+						if (!e) e = window.event;
+						var keyCode = e.keyCode || e.which;
+						if (keyCode == '13') 
+						{
+							var element = document.getElementsByClassName("easy-autocomplete-container");
+							$(element[0]).children().css({"display": "none"});
+
+							// Hide mobile keyboard
+							document.activeElement.blur();
+
+							$('#series_content').html("");
+							for (var i in matching_series)
+							{
+								$('#series_content').append('<div class=\"work\" id=\"'+matching_series[i]+'\"><a href=\"/serie/'+matching_series[i]+'\"><img src=\"res/'+matching_series[i]+'/thumb.png\" class=\"media\" alt=\"\"/><div class=\"caption\"><div class=\"work_title\"><h1>'+matching_series[i]+'</h1></div></div></a></div>');
+							}
+						}
+					}
+					////////////////////
+					/// SEARCH - end ///
+					////////////////////
+
+					// Init Append Series to DashBoard
+					function append_series(num) {
+						if (keys.length < num) num = keys.length;
+						for (var i = 0; i < num; ++i)
+						{
+							var random = Math.floor(Math.random() * keys.length);
+							var title = keys[random];
+
+							$('#series_content').append('<div class=\"work\" id=\"' + title + '\"><a href=\"/serie/' + title + '\"><img data-src=\"' + origin['origin'] + encodeURIComponent(title) +'/thumb.png\" class=\"media lazy\" alt=\"\"/><div class=\"caption\"><div class=\"work_title\"><h1>' + title + '</h1></div></div></a></div>');
+							keys.splice(random,1);
+							
+							$("div[id='"+title+"']").find("div").css("opacity","0");
+							$('.main .work .media').lazy({
+								effect: "fadeIn",
+								effectTime: 500,
+								threshold: 0,
+								afterLoad: function(element) {
+									element.closest('div').find("div").fadeTo(100,1);
+								}
+							});
+						}		
+					}
+
+					// Add Series While Scrolling
+					$(window).scroll(function() {
+						if($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
+							append_series(10);
+						}
+					});
+
+					// Init Dashboard: Append 15 series
+					append_series(15);	
+				});
 			});
 		});
-	});
 	</script>
 </head>
 <body>
 	<div id="menu"></div>
 	<section class="main clearfix" id="series_content">
-		<div id="search"></div>
+		<div id="search" style="display:none;">
+			<input id="buscador_serie" placeholder="Buscar sèries ..."/>
+		</div>
 	</section>
 </body>
 </html>
