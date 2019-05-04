@@ -6,19 +6,19 @@
 	<meta name="author" content="VEGETA.cat">
 	<meta name="description" content="VEGETA.cat és la pàgina web a on recordaràs moments únics de sèries en català" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
-	<link rel="icon" href="img/fav.png">
+	<link rel="icon" href="/img/fav.png">
 	
-	<link rel="stylesheet" type="text/css" href="css/reset.css">
-	<link rel="stylesheet" type="text/css" href="css/main.css">
-	<link rel="stylesheet" type="text/css" href="css/vegeta.css">
-	<link rel="stylesheet" type="text/css" href="plyr/plyr.css">
+	<link rel="stylesheet" type="text/css" href="/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="/css/main.css">
+	<link rel="stylesheet" type="text/css" href="/css/vegeta.css">
+	<link rel="stylesheet" type="text/css" href="/plyr/plyr.css">
 	
-	<script type="text/javascript" src="js/jquery.js"></script>
-	<script type="text/javascript" src="js/latinize.js"></script>
-	<script type="text/javascript" src="js/jquery.easy-autocomplete.js"></script>
-	<script type="text/javascript" src="js/jquery.lazy.min.js"></script>
-	<script type="text/javascript" src="js/vegeta.js"></script>
-	<script type="text/javascript" src="js/jquery.scrollUp.js"></script>
+	<script type="text/javascript" src="/js/jquery.js"></script>
+	<script type="text/javascript" src="/js/latinize.js"></script>
+	<script type="text/javascript" src="/js/jquery.easy-autocomplete.js"></script>
+	<script type="text/javascript" src="/js/jquery.lazy.min.js"></script>
+	<script type="text/javascript" src="/js/vegeta.js"></script>
+	<script type="text/javascript" src="/js/jquery.scrollUp.js"></script>
 	
 	<script>
 		$(document).ready(function() {
@@ -26,7 +26,7 @@
 			$.scrollUp();
 
 			// Init Menu
-			$('#menu').load('menu.html', function() {
+			$('#menu').load('/menu.html', function() {
 				$('#index-menu').removeClass('selected');
 				$('#series-menu').removeClass('selected');
 				$('#random-menu').removeClass('selected');
@@ -35,11 +35,11 @@
 			});
 
 			// Load origin.json
-			$.getJSON('origin.json', function(data) {
+			$.getJSON('/origin.json', function(data) {
 			var origin = JSON.parse(JSON.stringify(data));
 
 				// Load series.json
-				$.getJSON('series.json', function(data) {
+				$.getJSON('/series.json', function(data) {
 					var series_json = JSON.parse(JSON.stringify(data));
 					var keys = Object.keys(series_json);
 
@@ -93,7 +93,8 @@
 					var player = document.getElementById("player");
 
 					var serie_name = getParameterByName('s');
-					if (serie_name == null) serie_name = window.location.pathname.replace("/serie/", "");
+			
+					if (serie_name == null) serie_name = decodeURIComponent(window.location.pathname.replace("/serie/", ""));
 					
 					var serie_info = series_json[serie_name]
 
@@ -154,14 +155,6 @@
 						}
 					}
 
-					function play_video(url)
-					{
-						var serie_list_width = $("#serie-list").css("width");
-						$("#player").css("width", serie_list_width);
-						player.style.height = (player.offsetWidth * 0.5) + "px";
-						player.src = url;
-					}
-
 					$(window).resize(function() {
 						var serie_list_width = $("#serie-list").css("width");
 						$("#player").css("width", serie_list_width);
@@ -170,6 +163,13 @@
 				});
 			});
 		});
+		function play_video(url)
+		{
+			var serie_list_width = $("#serie-list").css("width");
+			$("#player").css("width", serie_list_width);
+			player.style.height = (player.offsetWidth * 0.5) + "px";
+			player.src = url;
+		}
 	</script>
 </head>
 
@@ -217,7 +217,7 @@
 		</section>
 	</section><!-- end main -->
 
-	<script type="text/javascript" src="plyr/plyr.js"></script>
-	<script type="text/javascript" src="plyr/demo.js"></script>
+	<script type="text/javascript" src="/plyr/plyr.js"></script>
+	<script type="text/javascript" src="/plyr/demo.js"></script>
 </body>
 </html>

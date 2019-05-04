@@ -1,9 +1,9 @@
 RewriteEngine on
 
-# Redirect "/serie.html?s=" to "/serie"   
-RewriteRule ^serie/(.*)$  /serie.html?s=$1 [L]
+# Redirect "/serie.html?s=" to "/serie"
+RewriteRule ^serie/(.*)$ serie.html?s=$1 [L]
 
-# Externally redirect "/file.html" to "/file"   
+# Externally redirect "/file.html" to "/file"
 RewriteCond %{THE_REQUEST} /([^.]+)\.html [NC]
 RewriteRule ^/%1 [NC,L,R]
 
