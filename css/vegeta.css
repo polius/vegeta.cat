@@ -57,7 +57,7 @@
 
 .easy-autocomplete {
   position: relative;
-  
+  line-height: 0;
   width: 100%;
   background-color: black;
   position: relative;
@@ -112,7 +112,6 @@
 .search-text
 {
 	position : relative;
-	top : -40px;
 	margin-left : 24px;
 
 	display : inline-block;
@@ -129,13 +128,13 @@
   .search-text
   {
   	position : relative;
-  	top : -36px;
-  	margin-left : 18px;
+    margin-left : 18px;
+    font-size : 1.4em;
   }
 
   .search-item
   {
-  	padding : 6px 40px;
+    padding : 6px 5px;
   }
 
   .search-image
@@ -150,12 +149,7 @@
   .search-text
   {
   	position : relative;
-  	top : 0px;
-  	padding : 4px 0px;
-  }
-  .search-image
-  {
-  	display : none;
+    padding : 4px 0px;
   }
 }
 

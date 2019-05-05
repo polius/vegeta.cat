@@ -58,7 +58,7 @@
 						template: {
 							type: "custom",
 							method: function(value, item) {
-								return "<a class=\"search-item\" href=\"/serie/" + item + "\">" + "<img class=\"search-image\" src=\"" + origin['origin'] + encodeURIComponent(item) + "/thumb_mini.png\"/>" +	"<span class=\"search-text\">" + value + "</span>" + "</a>";
+								return "<a class=\"search-item\" href=\"/serie/" + item + "\"><table style='line-height:1;'><tr><td><img class=\"search-image\" src=\"" + origin['origin'] + encodeURIComponent(item) + "/thumb_mini.png\"/></td><td><span class=\"search-text\">" + value + "</span></td></tr></table></a>";
 							}
 						}
 					};
@@ -71,17 +71,8 @@
 						var keyCode = e.keyCode || e.which;
 						if (keyCode == '13') 
 						{
-							var element = document.getElementsByClassName("easy-autocomplete-container");
-							$(element[0]).children().css({"display": "none"});
-
 							// Hide mobile keyboard
 							document.activeElement.blur();
-
-							$('#series_content').html("");
-							for (var i in matching_series)
-							{
-								$('#series_content').append('<div class=\"work\" id=\"'+matching_series[i]+'\"><a href=\"/serie/'+matching_series[i]+'\"><img src=\"res/'+matching_series[i]+'/thumb.png\" class=\"media\" alt=\"\"/><div class=\"caption\"><div class=\"work_title\"><h1>'+matching_series[i]+'</h1></div></div></a></div>');
-							}
 						}
 					}
 					////////////////////
