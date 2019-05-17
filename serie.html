@@ -11,7 +11,7 @@
 	<link rel="stylesheet" type="text/css" href="/css/reset.css">
 	<link rel="stylesheet" type="text/css" href="/css/main.css">
 	<link rel="stylesheet" type="text/css" href="/css/vegeta.css">
-	<link rel="stylesheet" type="text/css" href="/plyr/plyr.css">
+	<link rel="stylesheet" type="text/css" href="/css/plyr.css"/>
 	
 	<script type="text/javascript" src="/js/jquery.js"></script>
 	<script type="text/javascript" src="/js/latinize.js"></script>
@@ -19,8 +19,11 @@
 	<script type="text/javascript" src="/js/jquery.lazy.min.js"></script>
 	<script type="text/javascript" src="/js/vegeta.js"></script>
 	<script type="text/javascript" src="/js/jquery.scrollUp.js"></script>
+	<script type="text/javascript" src="/js/plyr.js"></script>
 	
 	<script>
+		var player = '';
+
 		$(document).ready(function() {
 			// Init ScrollUp
 			$.scrollUp();
@@ -80,13 +83,20 @@
 					////////////////////
 					/// SEARCH - end ///
 					////////////////////
-
-					var player = document.getElementById("player");
-
-					var serie_name = getParameterByName('s');
-			
-					if (serie_name == null) serie_name = decodeURIComponent(window.location.pathname.replace("/serie/", ""));
+					player = new Plyr('#player', {
+						controls: [
+							'play-large', // The large play button in the center
+							'play', // Play/pause playback
+							'progress', // The progress bar and scrubber for playback and buffering
+							'current-time', // The current time of playback
+							'duration', // The full duration of the media
+							'volume', // Volume control
+							'fullscreen', // Toggle fullscreen
+						]
+					});
 					
+					var serie_name = getParameterByName('s');
+					if (serie_name == null) serie_name = decodeURIComponent(window.location.pathname.replace("/serie/", ""));
 					var serie_info = series_json[serie_name]
 
 					load_serie_openings();
@@ -95,11 +105,7 @@
 					$("#serie-title").html(serie_name);
 
 					var url = (serie_info['Openings'].length > 0) ? origin['origin'] + serie_info['Openings'][0].Url : origin['origin'] + serie_info['Endings'][0].Url;
-					player.src = url;
-						
-					var serie_list_width = $("#serie-list").css("width");
-					$("#player").css("width", serie_list_width);
-					player.style.height = (player.offsetWidth * 0.5) + "px";
+					play_video(url)
 
 					function getParameterByName(name, url)
 					{
@@ -156,12 +162,32 @@
 		});
 		function play_video(url)
 		{
-			var serie_list_width = $("#serie-list").css("width");
-			$("#player").css("width", serie_list_width);
-			player.style.height = (player.offsetWidth * 0.5) + "px";
-			player.src = url;
+			player.source = {
+				type: 'video',
+				title: '',
+				sources: [
+					{
+						src: url,
+						type: 'video/mp4'
+					}
+				]
+			}
+			player.play();
 		}
 	</script>
+
+	<style>
+		.plyr video {
+			display:block; 
+			margin-left:auto; 
+			margin-right:auto; 
+			max-width:100%; 
+			width:800px;
+		}
+		.plyr:fullscreen video {
+			width:100%;
+		}
+	</style>
 </head>
 
 <body>
@@ -171,15 +197,15 @@
 		<div id="search" style="display:none;">
 			<input id="buscador_serie" placeholder="Buscar sèries ..."/>
 		</div>
-
+		
 		<section class="wrapper" style="display:none;">
 			<div class="content" style="padding-top:15px;">
-				<div>
-					<h1 id="serie-title" class="title" style="font-weight:normal;"></h1>
+				<div style="margin-top:15px; margin-bottom:30px;">
+					<h1 id="serie-title" style="font-weight:normal; text-align: center;"></h1>
 				</div>
-
-				<video id="player" autoplay controls crossorigin>
-					<source src="" type="video/mp4">
+				
+				<video controls crossorigin playsinline id="player">
+					<source src="" type="video/mp4"/>
 				</video>
 
 				<div id="serie-list" style="display:flex; margin-top: 20px;">
@@ -187,7 +213,7 @@
 						<div class="work-content-section clearfix">
 							<div class="series-navigationBar" style="margin-top: 0px;">
 								<ul>
-								  <li class="series-list-title">Openings</li>
+									<li class="series-list-title">Openings</li>
 								</ul>
 							</div>
 							<div id="eac-conatainer-series-list-openings" class="easy-autocomplete-container"></div>
@@ -198,17 +224,14 @@
 						<div class="work-content-section clearfix">
 							<div class="series-navigationBar" style="margin-top: 0px;">
 							<ul>
-							  <li class="series-list-title">Endings</li>
+								<li class="series-list-title">Endings</li>
 							</ul>
 						</div>
 						<div id="eac-conatainer-series-list-endings" class="easy-autocomplete-container"></div>
 					</div>
 				</div>
-			</div><!-- end content -->
+			</div>
 		</section>
-	</section><!-- end main -->
-
-	<script type="text/javascript" src="/plyr/plyr.js"></script>
-	<script type="text/javascript" src="/plyr/demo.js"></script>
+	</section>
 </body>
 </html>
