@@ -93,6 +93,21 @@
             }
         ]
     },
+    "Bob el manetes":
+    {
+        "Openings": [
+            {
+                "Title": "Opening 1",
+                "Url": "Bob+el+manetes/openings/Bob+el+manetes+-+Opening+1+(Catala%CC%80).mp4"
+            }
+        ],
+        "Endings": [
+            {
+                "Title": "Ending 1",
+                "Url": "Bob+el+manetes/endings/Bob+el+manetes+-+Ending+1+(Catala%CC%80).mp4"
+            }
+        ]
+    },
     "Bola de drac":
     {
         "Openings": [
@@ -361,29 +376,29 @@
         "Openings": [
             {
                 "Title": "Opening 1",
-                "Code": "qTzyAPeUyhI",
-                "List": "PLnROmnIBNK7ToLJyb8L23KGIlri0N-3l9",
-                "Index": ""
+                "Url": "Doraemon/openings/Doraemon+-+Opening+1+(Catal%C3%A0).mp4"
             },
             {
                 "Title": "Opening 2",
-                "Code": "LcnKTgagsOs",
-                "List": "PLnROmnIBNK7ToLJyb8L23KGIlri0N-3l9",
-                "Index": "2"
+                "Url": "Doraemon/openings/Doraemon+-+Opening+2+(Catal%C3%A0).mp4"
+            },
+            {
+                "Title": "Opening 3",
+                "Url": "Doraemon/openings/Doraemon+-+Opening+3+(Catal%C3%A0).mp4"
             }
         ],
         "Endings": [
             {
                 "Title": "Ending 1",
-                "Code": "Z1ys18-YCK4",
-                "List": "PLnROmnIBNK7ToLJyb8L23KGIlri0N-3l9",
-                "Index": "3"
+                "Url": "Doraemon/endings/Doraemon+-+Ending+1+(Catal%C3%A0).mp4"
             },
             {
                 "Title": "Ending 2",
-                "Code": "biQ3YlJx134",
-                "List": "PLnROmnIBNK7ToLJyb8L23KGIlri0N-3l9",
-                "Index": "4"
+                "Url": "Doraemon/endings/Doraemon+-+Ending+2+(Catal%C3%A0).mp4"
+            },
+            {
+                "Title": "Ending 3",
+                "Url": "Doraemon/endings/Doraemon+-+Ending+3+(Catal%C3%A0).mp4"
             }
         ]
     },
@@ -648,6 +663,21 @@
             }
         ],
         "Endings": []
+    },
+    "Fruits Basket":
+    {
+        "Openings": [
+            {
+                "Title": "Opening 1",
+                "Url": "Fruits+Basket/openings/Fruits+Basket+-+Opening+1+(Catala%CC%80).mp4"
+            }
+        ],
+        "Endings": [
+            {
+                "Title": "Ending 1",
+                "Url": "Fruits+Basket/endings/Fruits+Basket+-+Ending+1+(Catala%CC%80).mp4"
+            }
+        ]
     },
     "Fushigi Yugi, el joc misteriós":
     {
@@ -991,6 +1021,14 @@
                 "Url": "Kimagure+Orange+Road/openings/Kimagure+Orange+Road+-+Opening+1+(Catal%C3%A0).mp4"
             },
             {
+                "Title": "Opening 2",
+                "Url": "Kimagure+Orange+Road/openings/Kimagure+Orange+Road+-+Opening+2+(Catal%C3%A0).mp4"
+            },
+            {
+                "Title": "Opening 3",
+                "Url": "Kimagure+Orange+Road/openings/Kimagure+Orange+Road+-+Opening+3+(Catal%C3%A0).mp4"
+            },
+            {
                 "Title": "Opening 4",
                 "Url": "Kimagure+Orange+Road/openings/Kimagure+Orange+Road+-+Opening+4+(Catal%C3%A0).mp4"
             }
@@ -1003,6 +1041,10 @@
             {
                 "Title": "Ending 2",
                 "Url": "Kimagure+Orange+Road/endings/Kimagure+Orange+Road+-+Ending+2+(Catal%C3%A0).mp4"
+            },
+            {
+                "Title": "Ending 3",
+                "Url": "Kimagure+Orange+Road/endings/Kimagure+Orange+Road+-+Ending+3+(Catal%C3%A0).mp4"
             },
             {
                 "Title": "Ending 4",
@@ -1022,7 +1064,12 @@
                 "Url": "Kiteretsu/openings/Kiteretsu+-+Opening+1+(Catal%C3%A0).mp4"
             }
         ],
-        "Endings": []
+        "Endings": [
+            {
+                "Title": "Ending 1",
+                "Url": "Kiteretsu/endings/Kiteretsu+-+Ending+1+(Catal%C3%A0).mp4"
+            }
+        ]
     },
     "Kochikame":
     {
@@ -1030,9 +1077,18 @@
             {
                 "Title": " Opening 1",
                 "Url": "Kochikame/openings/Kochikame++-+Opening+1+(Catal%C3%A0).mp4"
+            },
+            {
+                "Title": " Opening 3",
+                "Url": "Kochikame/openings/Kochikame++-+Opening+3+(Catal%C3%A0).mp4"
             }
         ],
-        "Endings": []
+        "Endings": [
+            {
+                "Title": " Ending 2",
+                "Url": "Kochikame/endings/Kochikame++-+Ending+2+(Catal%C3%A0).mp4"
+            }
+        ]
     },
     "La llei de Ueki":
     {
@@ -1120,8 +1176,12 @@
     {
         "Openings": [
             {
-                "Title": "Openings 1-2",
-                "Url": "L'abella+Maia/openings/L'abella+Maia+-+Openings+1-2+(Catal%C3%A0).mp4"
+                "Title": "Opening 1",
+                "Url": "L'abella+Maia/openings/L'abella+Maia+-+Opening+1+(Catala%CC%80).mp4"
+            },
+            {
+                "Title": "Opening 2",
+                "Url": "L'abella+Maia/openings/L'abella+Maia+-+Opening+2+(Catala%CC%80).mp4"
             }
         ],
         "Endings": []
@@ -1827,7 +1887,12 @@
                 "Url": "Toni%2C+la+reportera/openings/Toni%2C+la+reportera+-+Opening+1+(Catal%C3%A0).mp4"
             }
         ],
-        "Endings": []
+        "Endings": [
+            {
+                "Title": "Ending 1",
+                "Url": "Toni%2C+la+reportera/endings/Toni%2C+la+reportera+-+Endings+1+(Catal%C3%A0).mp4"
+            }
+        ]
     },
     "Trigun":
     {
