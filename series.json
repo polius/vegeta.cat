@@ -286,6 +286,10 @@
             {
                 "Title": "Opening 1",
                 "Url": "Comic+Party/openings/Comic+Party+-+Opening+1+(Catal%C3%A0).mp4"
+            },
+            {
+                "Title": "Cançó Kawazurai",
+                "Url": "Comic+Party/openings/Comic+Party+-+Can%C3%A7%C3%B3+Kawazurai.mp4"
             }
         ],
         "Endings": [
@@ -397,9 +401,9 @@
                 "Url": "Doraemon/endings/Doraemon+-+Ending+2+(Catal%C3%A0).mp4"
             },
             {
-                "Title": "Ending 3",
-                "Url": "Doraemon/endings/Doraemon+-+Ending+3+(Catal%C3%A0).mp4"
-            }
+                "Title": "La porta de la felicitat",
+                "Url": "Doraemon/endings/Doraemon+-+La+Porta+de+la+Felicitat.mp4"
+            }            
         ]
     },
     "Dr. Slump (Arale)":
@@ -483,6 +487,10 @@
             {
                 "Title": "Opening 1",
                 "Url": "El+Rovell%C3%B3/openings/El+Rovell%C3%B3+-+Opening+1+(Catal%C3%A0).mp4"
+            },
+            {
+                "Title": "La vida és bonica",
+                "Url": "El+Rovell%C3%B3/openings/El+Rovell%C3%B3+-+La+vida+%C3%A9s+bonica.mp4"
             }
         ],
         "Endings": []
@@ -1159,16 +1167,16 @@
                 "Url": "La+m%C3%A0gica+Do-Re-Mi/endings/La+m%C3%A0gica+Do-Re-Mi+-+Ending+3+(Catal%C3%A0).mp4"
             },
             {
-                "Title": "Ending 4.1",
-                "Url": "La+m%C3%A0gica+Do-Re-Mi/endings/La+m%C3%A0gica+Do-Re-Mi+-+Ending+4.1+(Catal%C3%A0).mp4"
-            },
-            {
-                "Title": "Ending 4.2",
-                "Url": "La+m%C3%A0gica+Do-Re-Mi/endings/La+m%C3%A0gica+Do-Re-Mi+-+Ending+4.2+(Catal%C3%A0).mp4"
+                "Title": "Ending 4",
+                "Url": "La+m%C3%A0gica+Do-Re-Mi/endings/La+m%C3%A0gica+Do-Re-Mi+-+Ending+4+(Catal%C3%A0).mp4"
             },
             {
                 "Title": "Ending 5",
                 "Url": "La+m%C3%A0gica+Do-Re-Mi/endings/La+m%C3%A0gica+Do-Re-Mi+-+Ending+5+(Catal%C3%A0).mp4"
+            },
+            {
+                "Title": "Ending 6",
+                "Url": "La+m%C3%A0gica+Do-Re-Mi/endings/La+m%C3%A0gica+Do-Re-Mi+-+Ending+6+(Catal%C3%A0).mp4"
             }
         ]
     },
@@ -1814,7 +1822,11 @@
         "Endings": [
             {
                 "Title": "Ending 1",
-                "Url": "Shin+Chan/endings/Shin+Chan+-+Ending+1+(Valenci%C3%A0).mp4"
+                "Url": "Shin+Chan/endings/Shin+Chan+-+Ending+1+(Catal%C3%A0).mp4"
+            },
+            {
+                "Title": "Ending 2",
+                "Url": "Shin+Chan/endings/Shin+Chan+-+Ending+2+(Catal%C3%A0).mp4"
             }
         ]
     },
