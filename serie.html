@@ -13,7 +13,7 @@
 	<link rel="stylesheet" type="text/css" href="/css/vegeta.css">
 	<link rel="stylesheet" type="text/css" href="/plyr/plyr.css"/>
 	
-	<script type="text/javascript" src="/js/jquery.js"></script>
+	<script type="text/javascript" src="/js/jquery.min.js"></script>
 	<script type="text/javascript" src="/js/latinize.js"></script>
 	<script type="text/javascript" src="/js/jquery.easy-autocomplete.js"></script>
 	<script type="text/javascript" src="/js/jquery.lazy.min.js"></script>
@@ -37,126 +37,120 @@
 				$('#legal-menu').removeClass('selected');
 			});
 
-			// Load origin.json
-			$.getJSON('/origin.json', function(data) {
-			var origin = JSON.parse(JSON.stringify(data));
+			// Load series.json
+			$.getJSON('/series.json', function(data) {
+				var series_json = JSON.parse(JSON.stringify(data));
+				var keys = Object.keys(series_json);
 
-				// Load series.json
-				$.getJSON('/series.json', function(data) {
-					var series_json = JSON.parse(JSON.stringify(data));
-					var keys = Object.keys(series_json);
-
-					//////////////////////
-					/// SEARCH - start ///
-					//////////////////////
-					var matching_series = [];
-					var options = {
-						data: Object.keys(series_json),
-						list: {
-							match: {
-								enabled: true
-							},
-							maxNumberOfElements: 10
+				//////////////////////
+				/// SEARCH - start ///
+				//////////////////////
+				var matching_series = [];
+				var options = {
+					data: Object.keys(series_json),
+					list: {
+						match: {
+							enabled: true
 						},
-						adjustWidth : false,
-						template: {
-							type: "custom",
-							method: function(value, item) {
-								return "<a class=\"search-item\" href=\"/serie/" + item + "\"><table style='line-height:1;'><tr><td><img class=\"search-image\" src=\"" + origin['origin'] + encodeURIComponent(item) + "/thumb_mini.png\"/></td><td><span class=\"search-text\">" + value + "</span></td></tr></table></a>";
-							}
-						}
-					};
-					$("#buscador_serie").easyAutocomplete(options);
-					$("#search").fadeIn();
-					$(".wrapper").fadeIn();
-			
-					document.getElementById('buscador_serie').onkeypress = function(e)
-					{
-						if (!e) e = window.event;
-						var keyCode = e.keyCode || e.which;
-						if (keyCode == '13') 
-						{
-							// Hide mobile keyboard
-							document.activeElement.blur();
+						maxNumberOfElements: 10
+					},
+					adjustWidth : false,
+					template: {
+						type: "custom",
+						method: function(value, item) {
+							return "<a class=\"search-item\" href=\"/serie.html?s=" + encodeURIComponent(item) + "\"><table style='line-height:1;'><tr><td><img class=\"search-image\" src=\"https://cdn.vegeta.cat/" + encodeURIComponent(item) + "/thumb_mini.png\"/></td><td><span class=\"search-text\">" + value + "</span></td></tr></table></a>";
 						}
 					}
-					////////////////////
-					/// SEARCH - end ///
-					////////////////////
-					player = new Plyr('#player', {
-						controls: [
-							'play-large', // The large play button in the center
-							'play', // Play/pause playback
-							'progress', // The progress bar and scrubber for playback and buffering
-							'current-time', // The current time of playback
-							'duration', // The full duration of the media
-							'volume', // Volume control
-							'fullscreen', // Toggle fullscreen
-						]
-					});
-					
-					var serie_name = getParameterByName('s');
-					if (serie_name == null) serie_name = decodeURIComponent(window.location.pathname.replace("/serie/", ""));
-					var serie_info = series_json[serie_name]
-
-					load_serie_openings();
-					load_serie_endings();
-
-					$("#serie-title").html(serie_name);
-
-					var url = (serie_info['Openings'].length > 0) ? origin['origin'] + serie_info['Openings'][0].Url : origin['origin'] + serie_info['Endings'][0].Url;
-					play_video(url)
-
-					function getParameterByName(name, url)
+				};
+				$("#buscador_serie").easyAutocomplete(options);
+				$("#search").fadeIn();
+				$(".wrapper").fadeIn();
+		
+				document.getElementById('buscador_serie').onkeypress = function(e)
+				{
+					if (!e) e = window.event;
+					var keyCode = e.keyCode || e.which;
+					if (keyCode == '13') 
 					{
-							if (!url) url = window.location.href;
-							name = name.replace(/[\[\]]/g, "\\$&");
-							var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-									results = regex.exec(url);
-							if (!results) return null;
-							if (!results[2]) return '';
-							return decodeURIComponent(results[2].replace(/\+/g, " "));
+						// Hide mobile keyboard
+						document.activeElement.blur();
 					}
+				}
+				////////////////////
+				/// SEARCH - end ///
+				////////////////////
+				player = new Plyr('#player', {
+					controls: [
+						'play-large', // The large play button in the center
+						'play', // Play/pause playback
+						'progress', // The progress bar and scrubber for playback and buffering
+						'current-time', // The current time of playback
+						'duration', // The full duration of the media
+						'volume', // Volume control
+						'fullscreen', // Toggle fullscreen
+					]
+				});
+				
+				var serie_name = getParameterByName('s');
+				var serie_info = series_json[serie_name]
 
-					function load_serie_openings()
+				load_serie_openings();
+				load_serie_endings();
+
+				$("#serie-title").html(serie_name);
+
+				var url = (serie_info['Openings'].length > 0) ? 'https://cdn.vegeta.cat/' + encodeURIComponent(serie_info['Openings'][0].Url) : 'https://cdn.vegeta.cat/' + encodeURIComponent(serie_info['Endings'][0].Url);
+				play_video(url)
+
+				function getParameterByName(name, url)
+				{
+						if (!url) url = window.location.href;
+						name = name.replace(/[\[\]]/g, "\\$&");
+						var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+								results = regex.exec(url);
+						if (!results) return null;
+						if (!results[2]) return '';
+						return decodeURIComponent(results[2].replace(/\+/g, " "));
+				}
+
+				function load_serie_openings()
+				{
+					for (var i = 0; i < serie_info['Openings'].length; ++i)
 					{
-						for (var i = 0; i < serie_info['Openings'].length; ++i)
-						{
-							var row_color = (i % 2 == 0) ? 240 : 250;
-							var html_to_append = "<ul style=\"list-style-type: none;\">";
-							html_to_append += "<li style=\"cursor: pointer; cursor: hand;\">";
-							html_to_append += "<div class=\"eac-item\">";
-							html_to_append += "<a onClick=\"play_video('"+ origin['origin'] + serie_info['Openings'][i].Url + "')\" class=\"series-item\" style=\"display:block; background:rgb(" + row_color+", " + row_color+", " + row_color + ") none repeat scroll 0 0;\"><table style=\"width: 100%;\"><tr>";
-							html_to_append += "<td><span class=\"serie-list\">" + serie_info['Openings'][i].Title + "</span></td>";
-							html_to_append += "</tr></table></a></div></li></ul>";
-							html_to_append += "<ul style=\"height:1px; background-color:#DCDCDC;\"></ul>";
+						var row_color = (i % 2 == 0) ? 240 : 250;
+						var html_to_append = "<ul style=\"list-style-type: none;\">";
+						html_to_append += "<li style=\"cursor: pointer; cursor: hand;\">";
+						html_to_append += "<div class=\"eac-item\">";
+						html_to_append += "<a onClick=\"play_video('https://cdn.vegeta.cat/"+ encodeURIComponent(serie_info['Openings'][i].Url) + "')\" class=\"series-item\" style=\"display:block; background:rgb(" + row_color+", " + row_color+", " + row_color + ") none repeat scroll 0 0;\"><table style=\"width: 100%;\"><tr>";
+						html_to_append += "<td><span class=\"serie-list\">" + serie_info['Openings'][i].Title + "</span></td>";
+						html_to_append += "</tr></table></a></div></li></ul>";
+						html_to_append += "<ul style=\"height:1px; background-color:#DCDCDC;\"></ul>";
 
-							$("#eac-conatainer-series-list-openings").append(html_to_append);
-						}
+						$("#eac-conatainer-series-list-openings").append(html_to_append);
 					}
+				}
 
-					function load_serie_endings()
+				function load_serie_endings()
+				{
+					for (var i = 0; i < serie_info['Endings'].length; ++i)
 					{
-						for (var i = 0; i < serie_info['Endings'].length; ++i)
-						{
-							var row_color = (i % 2 == 0) ? 240 : 250;
-							var html_to_append = "<ul style=\"list-style-type: none;\">";
-							html_to_append += "<li style=\"cursor: pointer; cursor: hand;\">";
-							html_to_append += "<div class=\"eac-item\">";
-							html_to_append += "<a onClick=\"play_video('"+ origin['origin'] + serie_info['Endings'][i].Url + "')\" class=\"series-item\" style=\"display:block; background:rgb(" + row_color+", " + row_color + ", " + row_color + ") none repeat scroll 0 0;\"><table style=\"width: 100%;\"><tr>";
-							html_to_append += "<td><span class=\"serie-list\">" + serie_info['Endings'][i].Title + "</span></td>";
-							html_to_append += "</tr></table></a></div></li></ul>";
-							html_to_append += "<ul style=\"height:1px; background-color:#DCDCDC;\"></ul>";
-							
-							$("#eac-conatainer-series-list-endings").append(html_to_append);
-						}
+						var row_color = (i % 2 == 0) ? 240 : 250;
+						var html_to_append = "<ul style=\"list-style-type: none;\">";
+						html_to_append += "<li style=\"cursor: pointer; cursor: hand;\">";
+						html_to_append += "<div class=\"eac-item\">";
+						html_to_append += "<a onClick=\"play_video('https://cdn.vegeta.cat/" + encodeURIComponent(serie_info['Endings'][i].Url) + "')\" class=\"series-item\" style=\"display:block; background:rgb(" + row_color+", " + row_color + ", " + row_color + ") none repeat scroll 0 0;\"><table style=\"width: 100%;\"><tr>";
+						html_to_append += "<td><span class=\"serie-list\">" + serie_info['Endings'][i].Title + "</span></td>";
+						html_to_append += "</tr></table></a></div></li></ul>";
+						html_to_append += "<ul style=\"height:1px; background-color:#DCDCDC;\"></ul>";
+						
+						$("#eac-conatainer-series-list-endings").append(html_to_append);
 					}
+				}
 
-					$(window).resize(function() {
-						var serie_list_width = $("#serie-list").css("width");
-						$("#player").css("width", serie_list_width);
-						player.style.height = (player.offsetWidth * 0.5) + "px";
-					});
+				$(window).resize(function() {
+					var serie_list_width = $("#serie-list").css("width");
+					$("#player").css("width", serie_list_width);
+					player.style.height = (player.offsetWidth * 0.5) + "px";
 				});
 			});
 		});

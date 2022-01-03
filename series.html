@@ -12,7 +12,7 @@
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 	<link rel="stylesheet" type="text/css" href="css/vegeta.css">
 	
-	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/jquery.min.js"></script>
 	<script type="text/javascript" src="js/latinize.js"></script>
 	<script type="text/javascript" src="js/jquery.easy-autocomplete.js"></script>
 	<script type="text/javascript" src="js/jquery.lazy.min.js"></script>
@@ -33,133 +33,128 @@
 				$('#legal-menu').removeClass('selected');
 			});
 
-			// Load origin.json
-			$.getJSON('origin.json', function(data) {
-			var origin = JSON.parse(JSON.stringify(data));
+			// Load series.json
+			$.getJSON('series.json', function(data) {
+				var series_json = JSON.parse(JSON.stringify(data));
+				var keys = Object.keys(series_json);
 
-				// Load series.json
-				$.getJSON('series.json', function(data) {
-					var series_json = JSON.parse(JSON.stringify(data));
-					var keys = Object.keys(series_json);
-
-					//////////////////////
-					/// SEARCH - start ///
-					//////////////////////
-					var matching_series = [];
-					var options = {
-						data: Object.keys(series_json),
-						list: {
-							match: {
-								enabled: true
-							},
-							maxNumberOfElements: 10
+				//////////////////////
+				/// SEARCH - start ///
+				//////////////////////
+				var matching_series = [];
+				var options = {
+					data: Object.keys(series_json),
+					list: {
+						match: {
+							enabled: true
 						},
-						adjustWidth : false,
-						template: {
-							type: "custom",
-							method: function(value, item) {
-								return "<a class=\"search-item\" href=\"/serie/" + item + "\"><table style='line-height:1;'><tr><td><img class=\"search-image\" src=\"" + origin['origin'] + encodeURIComponent(item) + "/thumb_mini.png\"/></td><td><span class=\"search-text\">" + value + "</span></td></tr></table></a>";
-							}
-						}
-					};
-					$("#buscador_serie").easyAutocomplete(options);
-					$("#search").fadeIn();
-					$(".wrapper").fadeIn();
-			
-					document.getElementById('buscador_serie').onkeypress = function(e)
-					{
-						if (!e) e = window.event;
-						var keyCode = e.keyCode || e.which;
-						if (keyCode == '13') 
-						{
-							// Hide mobile keyboard
-							document.activeElement.blur();
+						maxNumberOfElements: 10
+					},
+					adjustWidth : false,
+					template: {
+						type: "custom",
+						method: function(value, item) {
+							return "<a class=\"search-item\" href=\"/serie.html?s=" + encodeURIComponent(item) + "\"><table style='line-height:1;'><tr><td><img class=\"search-image\" src=\"https://cdn.vegeta.cat/" + encodeURIComponent(item) + "/thumb_mini.png\"/></td><td><span class=\"search-text\">" + value + "</span></td></tr></table></a>";
 						}
 					}
-					////////////////////
-					/// SEARCH - end ///
-					////////////////////
-
-					var series_json_filter;
-					var j = 0;
-					
-					$(window).scroll(function () {
-						if ($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
-							load_series(5);
-						}
-					});
-
-					keys.sort(function (a, b) {
-						return a.toLowerCase().localeCompare(b.toLowerCase());
-					});
-
-					series_json_filter = JSON.parse(JSON.stringify(keys));
-
-					$("#eac-conatainer-series-list").html("");
-					load_series(20);
-					$("#eac-conatainer-series-list").hide();
-					$("#eac-conatainer-series-list").fadeIn(200);
-
-					$(".series-navigationBar ul li a").click(function () {
-						var selected_value = $(this).html();
-
-						$(".series-navigationBar ul li a").removeClass("active");
-						$(this).addClass("active");
-
-						if (selected_value != "#") {
-							series_json_filter = jQuery.grep(keys, function (c) {
-								return (latinize(c.toUpperCase()[0]) == selected_value);
-							});
-						}
-						else series_json_filter = JSON.parse(JSON.stringify(series_json));
-
-						j = 0;
-
-						$("#eac-conatainer-series-list").html("");
-						load_series(15);
-						$("#eac-conatainer-series-list").hide();
-						$("#eac-conatainer-series-list").fadeIn(300);
-
-						return false;
-					});
+				};
+				$("#buscador_serie").easyAutocomplete(options);
+				$("#search").fadeIn();
+				$(".wrapper").fadeIn();
 		
-					function load_series(num) {
-						if (series_json_filter.length == 0)
-						{
-							var html_to_append = "<h2 style=\"margin-top: 30px;\">No s'ha trobat cap sèrie</h2>";
-							$("#eac-conatainer-series-list").append(html_to_append);
-						}
-						else
-						{
-							var max = num+j;
-							if (max > series_json_filter.length) max = series_json_filter.length;
+				document.getElementById('buscador_serie').onkeypress = function(e)
+				{
+					if (!e) e = window.event;
+					var keyCode = e.keyCode || e.which;
+					if (keyCode == '13') 
+					{
+						// Hide mobile keyboard
+						document.activeElement.blur();
+					}
+				}
+				////////////////////
+				/// SEARCH - end ///
+				////////////////////
 
-							for (var i = j; i < max; ++i)
-							{
-								var row_color = (i % 2 == 0) ? 240 : 250;
-								var html_to_append = "<ul style=\"list-style-type: none;\">";
-								html_to_append += "<li>";
-								html_to_append += "<div class=\"eac-item\">";
-								html_to_append += "<a class=\"series-item\" href=\"/serie/" + series_json_filter[i] + "\" style=\"display:block; background:rgb(" + row_color+", " + row_color + ", " + row_color + ") none repeat scroll 0 0;\"><table><tr>";
-								html_to_append += "<td style=\"padding-top:5px; padding-left:6px;\"><img class=\"search-image\" style=\"display:block;\" data-src=\"" + origin['origin'] + encodeURIComponent(series_json_filter[i]) + "/thumb_mini.png\"></td>";
-								html_to_append += "<td><span class=\"search-text\">" + series_json_filter[i] + "</span></td>";
-								html_to_append += "</tr></table></a></div></li></ul>";
-								html_to_append += "<ul style=\"height:1px; background-color:#DCDCDC;\"></ul>";
-								$("#eac-conatainer-series-list").append(html_to_append);
-
-								$('.search-image').lazy({
-									effect: "fadeIn",
-									effectTime: 500,
-									threshold: 0,
-									afterLoad: function(element) {
-										element.closest('tr').find("span").stop().fadeTo(100,1);
-									}
-								});
-							}
-							j = i;
-						}
+				var series_json_filter;
+				var j = 0;
+				
+				$(window).scroll(function () {
+					if ($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
+						load_series(5);
 					}
 				});
+
+				keys.sort(function (a, b) {
+					return a.toLowerCase().localeCompare(b.toLowerCase());
+				});
+
+				series_json_filter = JSON.parse(JSON.stringify(keys));
+
+				$("#eac-conatainer-series-list").html("");
+				load_series(20);
+				$("#eac-conatainer-series-list").hide();
+				$("#eac-conatainer-series-list").fadeIn(200);
+
+				$(".series-navigationBar ul li a").click(function () {
+					var selected_value = $(this).html();
+
+					$(".series-navigationBar ul li a").removeClass("active");
+					$(this).addClass("active");
+
+					if (selected_value != "#") {
+						series_json_filter = jQuery.grep(keys, function (c) {
+							return (latinize(c.toUpperCase()[0]) == selected_value);
+						});
+					}
+					else series_json_filter = JSON.parse(JSON.stringify(series_json));
+
+					j = 0;
+
+					$("#eac-conatainer-series-list").html("");
+					load_series(15);
+					$("#eac-conatainer-series-list").hide();
+					$("#eac-conatainer-series-list").fadeIn(300);
+
+					return false;
+				});
+	
+				function load_series(num) {
+					if (series_json_filter.length == 0)
+					{
+						var html_to_append = "<h2 style=\"margin-top: 30px;\">No s'ha trobat cap sèrie</h2>";
+						$("#eac-conatainer-series-list").append(html_to_append);
+					}
+					else
+					{
+						var max = num+j;
+						if (max > series_json_filter.length) max = series_json_filter.length;
+
+						for (var i = j; i < max; ++i)
+						{
+							var row_color = (i % 2 == 0) ? 240 : 250;
+							var html_to_append = "<ul style=\"list-style-type: none;\">";
+							html_to_append += "<li>";
+							html_to_append += "<div class=\"eac-item\">";
+							html_to_append += "<a class=\"series-item\" href=\"/serie.html?s=" + encodeURIComponent(series_json_filter[i]) + "\" style=\"display:block; background:rgb(" + row_color+", " + row_color + ", " + row_color + ") none repeat scroll 0 0;\"><table><tr>";
+							html_to_append += "<td style=\"padding-top:5px; padding-left:6px;\"><img class=\"search-image\" style=\"display:block;\" data-src=\"https://cdn.vegeta.cat/" + encodeURIComponent(series_json_filter[i]) + "/thumb_mini.png\"></td>";
+							html_to_append += "<td><span class=\"search-text\">" + series_json_filter[i] + "</span></td>";
+							html_to_append += "</tr></table></a></div></li></ul>";
+							html_to_append += "<ul style=\"height:1px; background-color:#DCDCDC;\"></ul>";
+							$("#eac-conatainer-series-list").append(html_to_append);
+
+							$('.search-image').lazy({
+								effect: "fadeIn",
+								effectTime: 500,
+								threshold: 0,
+								afterLoad: function(element) {
+									element.closest('tr').find("span").stop().fadeTo(100,1);
+								}
+							});
+						}
+						j = i;
+					}
+				}
 			});
 		});
 	</script>

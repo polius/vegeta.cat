@@ -12,7 +12,7 @@
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 	<link rel="stylesheet" type="text/css" href="css/vegeta.css">
 	
-	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/jquery.min.js"></script>
 	<script type="text/javascript" src="js/latinize.js"></script>
 	<script type="text/javascript" src="js/jquery.easy-autocomplete.js"></script>
 	<script type="text/javascript" src="js/jquery.lazy.min.js"></script>
@@ -33,53 +33,48 @@
 				$('#legal-menu').addClass('selected');
 			});
 
-			// Load origin.json
-			$.getJSON('origin.json', function(data) {
-				var origin = JSON.parse(JSON.stringify(data));
+			// Load series.json
+			$.getJSON('series.json', function(data) {
+				var series_json = JSON.parse(JSON.stringify(data));
+				var keys = Object.keys(series_json);
 
-				// Load series.json
-				$.getJSON('series.json', function(data) {
-					var series_json = JSON.parse(JSON.stringify(data));
-					var keys = Object.keys(series_json);
-
-					//////////////////////
-					/// SEARCH - start ///
-					//////////////////////
-					var matching_series = [];
-					var options = {
-						data: Object.keys(series_json),
-						list: {
-							match: {
-								enabled: true
-							},
-							maxNumberOfElements: 10
+				//////////////////////
+				/// SEARCH - start ///
+				//////////////////////
+				var matching_series = [];
+				var options = {
+					data: Object.keys(series_json),
+					list: {
+						match: {
+							enabled: true
 						},
-						adjustWidth : false,
-						template: {
-							type: "custom",
-							method: function(value, item) {
-								return "<a class=\"search-item\" href=\"/serie/" + item + "\"><table style='line-height:1;'><tr><td><img class=\"search-image\" src=\"" + origin['origin'] + encodeURIComponent(item) + "/thumb_mini.png\"/></td><td><span class=\"search-text\">" + value + "</span></td></tr></table></a>";
-							}
-						}
-					};
-					$("#buscador_serie").easyAutocomplete(options);
-					$("#search").fadeIn();
-					$(".wrapper").fadeIn();
-		
-					document.getElementById('buscador_serie').onkeypress = function(e)
-					{
-						if (!e) e = window.event;
-						var keyCode = e.keyCode || e.which;
-						if (keyCode == '13') 
-						{
-							// Hide mobile keyboard
-							document.activeElement.blur();
+						maxNumberOfElements: 10
+					},
+					adjustWidth : false,
+					template: {
+						type: "custom",
+						method: function(value, item) {
+							return "<a class=\"search-item\" href=\"/serie.html?s=" + encodeURIComponent(item) + "\"><table style='line-height:1;'><tr><td><img class=\"search-image\" src=\"https://cdn.vegeta.cat/" + encodeURIComponent(item) + "/thumb_mini.png\"/></td><td><span class=\"search-text\">" + value + "</span></td></tr></table></a>";
 						}
 					}
-					////////////////////
-					/// SEARCH - end ///
-					////////////////////
-				});
+				};
+				$("#buscador_serie").easyAutocomplete(options);
+				$("#search").fadeIn();
+				$(".wrapper").fadeIn();
+	
+				document.getElementById('buscador_serie').onkeypress = function(e)
+				{
+					if (!e) e = window.event;
+					var keyCode = e.keyCode || e.which;
+					if (keyCode == '13') 
+					{
+						// Hide mobile keyboard
+						document.activeElement.blur();
+					}
+				}
+				////////////////////
+				/// SEARCH - end ///
+				////////////////////
 			});
 		});
 	</script>

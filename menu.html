@@ -1,5 +1,7 @@
 <script>
 	$(document).ready(function() {
+		var year = new Date().getFullYear()
+        $("#year").text(year)
 		$("#menu_header").fadeIn();
 	});
 </script>
@@ -17,16 +19,16 @@
 	<nav style="margin-bottom:100px;">
 		<ul>
 			<li><a id="index-menu" href="/">Inici</a></li>
-			<li><a id="series-menu" href="/series">Sèries A-Z</a></li>
-			<li><a id="random-menu" href="/random">Sèrie aleatòria</a></li>
-			<li><a id="about-menu" href="/about">Sobre vegeta.cat</a></li>
+			<li><a id="series-menu" href="/series.html">Sèries A-Z</a></li>
+			<li><a id="random-menu" href="/random.html">Sèrie aleatòria</a></li>
+			<li><a id="about-menu" href="/about.html">Sobre vegeta.cat</a></li>
 		</ul>
 	</nav>
 
 	<div class="footer clearfix">
 		<div class="rights">
-			<p>Copyright © 2019 Vegeta.cat</p>
-			<a id="legal-menu" href="/legal">Nota legal</a>
+			<p>Copyright © <span id="year"></span> Vegeta.cat</p>
+			<a id="legal-menu" href="/legal.html">Nota legal</a>
 		</div>
 	</div>
 </header>

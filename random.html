@@ -13,7 +13,7 @@
 	<link rel="stylesheet" type="text/css" href="css/vegeta.css">
 	<link rel="stylesheet" type="text/css" href="plyr/plyr.css">
 	
-	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/jquery.min.js"></script>
 	<script type="text/javascript" src="js/latinize.js"></script>
 	<script type="text/javascript" src="js/jquery.easy-autocomplete.js"></script>
 	<script type="text/javascript" src="js/jquery.lazy.min.js"></script>
@@ -33,64 +33,59 @@
 				$('#legal-menu').removeClass('selected');
 			});
 
-			// Load origin.json
-			$.getJSON('origin.json', function(data) {
-			var origin = JSON.parse(JSON.stringify(data));
+			// Load series.json
+			$.getJSON('series.json', function(data) {
+				var series_json = JSON.parse(JSON.stringify(data));
+				var keys = Object.keys(series_json);
 
-				// Load series.json
-				$.getJSON('series.json', function(data) {
-					var series_json = JSON.parse(JSON.stringify(data));
-					var keys = Object.keys(series_json);
+				player = new Plyr('#player', {
+					controls: [
+						'play-large', // The large play button in the center
+						'play', // Play/pause playback
+						'progress', // The progress bar and scrubber for playback and buffering
+						'current-time', // The current time of playback
+						'duration', // The full duration of the media
+						'volume', // Volume control
+						'fullscreen', // Toggle fullscreen
+					]
+				});
 
-					player = new Plyr('#player', {
-						controls: [
-							'play-large', // The large play button in the center
-							'play', // Play/pause playback
-							'progress', // The progress bar and scrubber for playback and buffering
-							'current-time', // The current time of playback
-							'duration', // The full duration of the media
-							'volume', // Volume control
-							'fullscreen', // Toggle fullscreen
-						]
-					});
-
-					$("#player").on('ended', function(event) {
-						loadSerie();
-					});
-
-					function loadSerie()
-					{
-						var random_index = Math.floor(Math.random() * keys.length);
-						var serie_random = series_json[keys[random_index]];
-
-						var openings = serie_random['Openings'].length;
-						var endings = serie_random['Endings'].length;
-
-						var random = Math.floor(Math.random() * (openings + endings));
-						var url = (random < openings) ? origin['origin'] + serie_random['Openings'][random]['Url'] : origin['origin'] + serie_random['Endings'][(random - openings)]['Url'];
-						var player = document.getElementById("player");
-
-						play_video(url);
-					}
-
-					function play_video(url)
-					{
-						player.source = {
-							type: 'video',
-							title: '',
-							sources: [
-								{
-									src: url,
-									type: 'video/mp4'
-								}
-							]
-						}
-						player.play();
-					}
-
-					// Load Random Serie!
+				$("#player").on('ended', function(event) {
 					loadSerie();
 				});
+
+				function loadSerie()
+				{
+					var random_index = Math.floor(Math.random() * keys.length);
+					var serie_random = series_json[keys[random_index]];
+
+					var openings = serie_random['Openings'].length;
+					var endings = serie_random['Endings'].length;
+
+					var random = Math.floor(Math.random() * (openings + endings));
+					var url = (random < openings) ? 'https://cdn.vegeta.cat/' + encodeURIComponent(serie_random['Openings'][random]['Url']) : 'https://cdn.vegeta.cat/' + encodeURIComponent(serie_random['Endings'][(random - openings)]['Url']);
+					var player = document.getElementById("player");
+
+					play_video(url);
+				}
+
+				function play_video(url)
+				{
+					player.source = {
+						type: 'video',
+						title: '',
+						sources: [
+							{
+								src: url,
+								type: 'video/mp4'
+							}
+						]
+					}
+					player.play();
+				}
+
+				// Load Random Serie!
+				loadSerie();
 			});
 		});
 	</script>
