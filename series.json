@@ -1314,7 +1314,16 @@
                 "Url": "Love Hina/openings/Love Hina - Opening 2.mp4"
             }
         ],
-        "Endings": []
+        "Endings": [
+            {
+                "Title": "Ending 1",
+                "Url": "Love Hina/endings/Love Hina - Ending 1.mp4"
+            },
+            {
+                "Title": "Ending 2",
+                "Url": "Love Hina/endings/Love Hina - Ending 2.mp4"
+            }
+        ]
     },
     "Lucky Luke":
     {
