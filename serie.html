@@ -19,7 +19,7 @@
 	<script type="text/javascript" src="/js/jquery.lazy.min.js"></script>
 	<script type="text/javascript" src="/js/vegeta.js"></script>
 	<script type="text/javascript" src="/js/jquery.scrollUp.js"></script>
-	<script type="text/javascript" src="/plyr/plyr.js"></script>
+	<script type="text/javascript" src="/plyr/plyr.min.js"></script>
 	
 	<script>
 		var player = '';
@@ -58,7 +58,7 @@
 					template: {
 						type: "custom",
 						method: function(value, item) {
-							return "<a class=\"search-item\" href=\"/serie.html?s=" + encodeURIComponent(item) + "\"><table style='line-height:1;'><tr><td><img class=\"search-image\" src=\"https://cdn.vegeta.cat/" + encodeURIComponent(item) + "/thumb_mini.png\"/></td><td><span class=\"search-text\">" + value + "</span></td></tr></table></a>";
+							return "<a class=\"search-item\" href=\"/serie.html?s=" + encodeURIComponent(item) + "\"><table style='line-height:1;'><tr><td><img class=\"search-image\" src=\"https://www.vegeta.cat/cdn/" + encodeURIComponent(item) + "/thumb_mini.png\"/></td><td><span class=\"search-text\">" + value + "</span></td></tr></table></a>";
 						}
 					}
 				};
@@ -99,7 +99,7 @@
 
 				$("#serie-title").html(serie_name);
 
-				var url = (serie_info['Openings'].length > 0) ? 'https://cdn.vegeta.cat/' + encodeURIComponent(serie_info['Openings'][0].Url) : 'https://cdn.vegeta.cat/' + encodeURIComponent(serie_info['Endings'][0].Url);
+				var url = (serie_info['Openings'].length > 0) ? 'https://www.vegeta.cat/cdn/' + encodeURIComponent(serie_info['Openings'][0].Url) : 'https://www.vegeta.cat/cdn/' + encodeURIComponent(serie_info['Endings'][0].Url);
 				play_video(url)
 
 				function getParameterByName(name, url)
@@ -121,7 +121,7 @@
 						var html_to_append = "<ul style=\"list-style-type: none;\">";
 						html_to_append += "<li style=\"cursor: pointer; cursor: hand;\">";
 						html_to_append += "<div class=\"eac-item\">";
-						html_to_append += "<a onClick=\"play_video('https://cdn.vegeta.cat/"+ encodeURIComponent(serie_info['Openings'][i].Url) + "')\" class=\"series-item\" style=\"display:block; background:rgb(" + row_color+", " + row_color+", " + row_color + ") none repeat scroll 0 0;\"><table style=\"width: 100%;\"><tr>";
+						html_to_append += "<a onClick=\"play_video('https://www.vegeta.cat/cdn/"+ encodeURIComponent(serie_info['Openings'][i].Url) + "')\" class=\"series-item\" style=\"display:block; background:rgb(" + row_color+", " + row_color+", " + row_color + ") none repeat scroll 0 0;\"><table style=\"width: 100%;\"><tr>";
 						html_to_append += "<td><span class=\"serie-list\">" + serie_info['Openings'][i].Title + "</span></td>";
 						html_to_append += "</tr></table></a></div></li></ul>";
 						html_to_append += "<ul style=\"height:1px; background-color:#DCDCDC;\"></ul>";
@@ -138,7 +138,7 @@
 						var html_to_append = "<ul style=\"list-style-type: none;\">";
 						html_to_append += "<li style=\"cursor: pointer; cursor: hand;\">";
 						html_to_append += "<div class=\"eac-item\">";
-						html_to_append += "<a onClick=\"play_video('https://cdn.vegeta.cat/" + encodeURIComponent(serie_info['Endings'][i].Url) + "')\" class=\"series-item\" style=\"display:block; background:rgb(" + row_color+", " + row_color + ", " + row_color + ") none repeat scroll 0 0;\"><table style=\"width: 100%;\"><tr>";
+						html_to_append += "<a onClick=\"play_video('https://www.vegeta.cat/cdn/" + encodeURIComponent(serie_info['Endings'][i].Url) + "')\" class=\"series-item\" style=\"display:block; background:rgb(" + row_color+", " + row_color + ", " + row_color + ") none repeat scroll 0 0;\"><table style=\"width: 100%;\"><tr>";
 						html_to_append += "<td><span class=\"serie-list\">" + serie_info['Endings'][i].Title + "</span></td>";
 						html_to_append += "</tr></table></a></div></li></ul>";
 						html_to_append += "<ul style=\"height:1px; background-color:#DCDCDC;\"></ul>";

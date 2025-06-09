@@ -18,7 +18,7 @@
 	<script type="text/javascript" src="js/jquery.easy-autocomplete.js"></script>
 	<script type="text/javascript" src="js/jquery.lazy.min.js"></script>
 	<script type="text/javascript" src="js/vegeta.js"></script>
-	<script type="text/javascript" src="plyr/plyr.js"></script>
+	<script type="text/javascript" src="plyr/plyr.min.js"></script>
 
 	<script>
 		var player = '';
@@ -37,6 +37,7 @@
 			$.getJSON('series.json', function(data) {
 				var series_json = JSON.parse(JSON.stringify(data));
 				var keys = Object.keys(series_json);
+				const played = new Set();
 
 				player = new Plyr('#player', {
 					controls: [
@@ -50,23 +51,30 @@
 					]
 				});
 
-				$("#player").on('ended', function(event) {
+				player.on('ended', function(event) {
 					loadSerie();
 				});
 
 				function loadSerie()
 				{
-					var random_index = Math.floor(Math.random() * keys.length);
-					var serie_random = series_json[keys[random_index]];
+					const random_index = Math.floor(Math.random() * keys.length);
+  					const serie = series_json[keys[random_index]];
 
-					var openings = serie_random['Openings'].length;
-					var endings = serie_random['Endings'].length;
+					const openings = serie['Openings'] || [];
+  					const endings = serie['Endings'] || [];
 
-					var random = Math.floor(Math.random() * (openings + endings));
-					var url = (random < openings) ? 'https://cdn.vegeta.cat/' + encodeURIComponent(serie_random['Openings'][random]['Url']) : 'https://cdn.vegeta.cat/' + encodeURIComponent(serie_random['Endings'][(random - openings)]['Url']);
-					var player = document.getElementById("player");
+					const allVideos = [...openings.map(v => v.Url), ...endings.map(v => v.Url)];
+					const unplayed = allVideos.filter(url => !played.has(url));
 
-					play_video(url);
+					if (unplayed.length === 0) {
+						played.clear();
+						loadSerie();
+					}
+					else {
+						const url = unplayed[Math.floor(Math.random() * unplayed.length)];
+						played.add(url);
+						play_video('https://www.vegeta.cat/cdn/' + encodeURIComponent(url));
+					}
 				}
 
 				function play_video(url)

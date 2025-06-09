@@ -54,7 +54,7 @@
 					template: {
 						type: "custom",
 						method: function(value, item) {
-							return "<a class=\"search-item\" href=\"/serie.html?s=" + encodeURIComponent(item) + "\"><table style='line-height:1;'><tr><td><img class=\"search-image\" src=\"https://cdn.vegeta.cat/" + encodeURIComponent(item) + "/thumb_mini.png\"/></td><td><span class=\"search-text\">" + value + "</span></td></tr></table></a>";
+							return "<a class=\"search-item\" href=\"/serie.html?s=" + encodeURIComponent(item) + "\"><table style='line-height:1;'><tr><td><img class=\"search-image\" src=\"https://www.vegeta.cat/cdn/" + encodeURIComponent(item) + "/thumb_mini.png\"/></td><td><span class=\"search-text\">" + value + "</span></td></tr></table></a>";
 						}
 					}
 				};
@@ -83,7 +83,7 @@
 						var random = Math.floor(Math.random() * keys.length);
 						var title = keys[random];
 
-						$('#series_content').append('<div class=\"work\" id=\"' + title + '\"><a href=\"/serie.html?s=' + title + '\"><img data-src=\"https://cdn.vegeta.cat/' + encodeURIComponent(title) + '/thumb.png\" class=\"media lazy\" alt=\"\"/><div class=\"caption\"><div class=\"work_title\"><h1>' + title + '</h1></div></div></a></div>');
+						$('#series_content').append('<div class=\"work\" id=\"' + title + '\"><a href=\"/serie.html?s=' + title + '\"><img data-src=\"https://www.vegeta.cat/cdn/' + encodeURIComponent(title) + '/thumb.png\" class=\"media lazy\" alt=\"\"/><div class=\"caption\"><div class=\"work_title\"><h1>' + title + '</h1></div></div></a></div>');
 						keys.splice(random,1);
 						
 						$("div[id=\""+title+"\"]").find("div").css("opacity","0");
