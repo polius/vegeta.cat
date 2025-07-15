@@ -20,6 +20,12 @@
 	<script type="text/javascript" src="js/jquery.scrollUp.js"></script>
 
 	<script>
+		function encodeURL(path) {
+			return path
+				.split('/')
+				.map(segment => encodeURIComponent(segment).replace(/%20/g, '+'))
+				.join('/');
+		}
 		$(document).ready(function() {
 			// Init ScrollUp
 			$.scrollUp();
@@ -54,7 +60,7 @@
 					template: {
 						type: "custom",
 						method: function(value, item) {
-							return "<a class=\"search-item\" href=\"/serie.html?s=" + encodeURIComponent(item) + "\"><table style='line-height:1;'><tr><td><img class=\"search-image\" src=\"https://www.vegeta.cat/cdn/" + encodeURIComponent(item) + "/thumb_mini.png\"/></td><td><span class=\"search-text\">" + value + "</span></td></tr></table></a>";
+							return "<a class=\"search-item\" href=\"/serie.html?s=" + encodeURL(item) + "\"><table style='line-height:1;'><tr><td><img class=\"search-image\" src=\"https://www.vegeta.cat/cdn/" + encodeURL(item) + "/thumb_mini.png\"/></td><td><span class=\"search-text\">" + value + "</span></td></tr></table></a>";
 						}
 					}
 				};
@@ -136,8 +142,8 @@
 							var html_to_append = "<ul style=\"list-style-type: none;\">";
 							html_to_append += "<li>";
 							html_to_append += "<div class=\"eac-item\">";
-							html_to_append += "<a class=\"series-item\" href=\"/serie.html?s=" + encodeURIComponent(series_json_filter[i]) + "\" style=\"display:block; background:rgb(" + row_color+", " + row_color + ", " + row_color + ") none repeat scroll 0 0;\"><table><tr>";
-							html_to_append += "<td style=\"padding-top:5px; padding-left:6px;\"><img class=\"search-image\" style=\"display:block;\" data-src=\"https://www.vegeta.cat/cdn/" + encodeURIComponent(series_json_filter[i]) + "/thumb_mini.png\"></td>";
+							html_to_append += "<a class=\"series-item\" href=\"/serie.html?s=" + encodeURL(series_json_filter[i]) + "\" style=\"display:block; background:rgb(" + row_color+", " + row_color + ", " + row_color + ") none repeat scroll 0 0;\"><table><tr>";
+							html_to_append += "<td style=\"padding-top:5px; padding-left:6px;\"><img class=\"search-image\" style=\"display:block;\" data-src=\"https://www.vegeta.cat/cdn/" + encodeURL(series_json_filter[i]) + "/thumb_mini.png\"></td>";
 							html_to_append += "<td><span class=\"search-text\">" + series_json_filter[i] + "</span></td>";
 							html_to_append += "</tr></table></a></div></li></ul>";
 							html_to_append += "<ul style=\"height:1px; background-color:#DCDCDC;\"></ul>";

@@ -11,25 +11,30 @@
 	<link rel="stylesheet" type="text/css" href="/css/reset.css">
 	<link rel="stylesheet" type="text/css" href="/css/main.css">
 	<link rel="stylesheet" type="text/css" href="/css/vegeta.css">
-	<link rel="stylesheet" type="text/css" href="/plyr/plyr.css"/>
-	
+	<link rel="stylesheet" type="text/css" href="css/video-js.css">
+
 	<script type="text/javascript" src="/js/jquery.min.js"></script>
 	<script type="text/javascript" src="/js/latinize.js"></script>
 	<script type="text/javascript" src="/js/jquery.easy-autocomplete.js"></script>
 	<script type="text/javascript" src="/js/jquery.lazy.min.js"></script>
 	<script type="text/javascript" src="/js/vegeta.js"></script>
 	<script type="text/javascript" src="/js/jquery.scrollUp.js"></script>
-	<script type="text/javascript" src="/plyr/plyr.min.js"></script>
-	
-	<script>
-		var player = '';
+	<script type="text/javascript" src="js/video.min.js"></script>
 
-		$(document).ready(function() {
-			// Init ScrollUp
+	<script>
+		let player = '';
+
+		function encodeURL(path) {
+			return path
+				.split('/')
+				.map(segment => encodeURIComponent(segment).replace(/%20/g, '+'))
+				.join('/');
+		}
+
+		$(document).ready(function () {
 			$.scrollUp();
 
-			// Init Menu
-			$('#menu').load('/menu.html', function() {
+			$('#menu').load('/menu.html', function () {
 				$('#index-menu').removeClass('selected');
 				$('#series-menu').removeClass('selected');
 				$('#random-menu').removeClass('selected');
@@ -37,15 +42,10 @@
 				$('#legal-menu').removeClass('selected');
 			});
 
-			// Load series.json
-			$.getJSON('/series.json', function(data) {
+			$.getJSON('/series.json', function (data) {
 				var series_json = JSON.parse(JSON.stringify(data));
 				var keys = Object.keys(series_json);
 
-				//////////////////////
-				/// SEARCH - start ///
-				//////////////////////
-				var matching_series = [];
 				var options = {
 					data: Object.keys(series_json),
 					list: {
@@ -54,74 +54,60 @@
 						},
 						maxNumberOfElements: 10
 					},
-					adjustWidth : false,
+					adjustWidth: false,
 					template: {
 						type: "custom",
-						method: function(value, item) {
-							return "<a class=\"search-item\" href=\"/serie.html?s=" + encodeURIComponent(item) + "\"><table style='line-height:1;'><tr><td><img class=\"search-image\" src=\"https://www.vegeta.cat/cdn/" + encodeURIComponent(item) + "/thumb_mini.png\"/></td><td><span class=\"search-text\">" + value + "</span></td></tr></table></a>";
+						method: function (value, item) {
+							return "<a class=\"search-item\" href=\"/serie.html?s=" + encodeURL(item) + "\"><table style='line-height:1;'><tr><td><img class=\"search-image\" src=\"https://www.vegeta.cat/cdn/" + encodeURL(item) + "/thumb_mini.png\"/></td><td><span class=\"search-text\">" + value + "</span></td></tr></table></a>";
 						}
 					}
 				};
 				$("#buscador_serie").easyAutocomplete(options);
 				$("#search").fadeIn();
 				$(".wrapper").fadeIn();
-		
-				document.getElementById('buscador_serie').onkeypress = function(e)
-				{
+
+				document.getElementById('buscador_serie').onkeypress = function (e) {
 					if (!e) e = window.event;
 					var keyCode = e.keyCode || e.which;
-					if (keyCode == '13') 
-					{
-						// Hide mobile keyboard
+					if (keyCode == '13') {
 						document.activeElement.blur();
 					}
-				}
-				////////////////////
-				/// SEARCH - end ///
-				////////////////////
-				player = new Plyr('#player', {
-					controls: [
-						'play-large', // The large play button in the center
-						'play', // Play/pause playback
-						'progress', // The progress bar and scrubber for playback and buffering
-						'current-time', // The current time of playback
-						'duration', // The full duration of the media
-						'volume', // Volume control
-						'fullscreen', // Toggle fullscreen
-					]
-				});
-				
+				};
+
+				player = videojs('player');
+
 				var serie_name = getParameterByName('s');
-				var serie_info = series_json[serie_name]
+				var serie_info = series_json[serie_name];
 
 				load_serie_openings();
 				load_serie_endings();
 
 				$("#serie-title").html(serie_name);
 
-				var url = (serie_info['Openings'].length > 0) ? 'https://www.vegeta.cat/cdn/' + encodeURIComponent(serie_info['Openings'][0].Url) : 'https://www.vegeta.cat/cdn/' + encodeURIComponent(serie_info['Endings'][0].Url);
-				play_video(url)
+				var url = (serie_info['Openings'].length > 0)
+					? 'https://www.vegeta.cat/cdn/' + encodeURL(serie_info['Openings'][0].Url)
+					: 'https://www.vegeta.cat/cdn/' + encodeURL(serie_info['Endings'][0].Url);
+				
+				play_video(url);
 
-				function getParameterByName(name, url)
-				{
-						if (!url) url = window.location.href;
-						name = name.replace(/[\[\]]/g, "\\$&");
-						var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-								results = regex.exec(url);
-						if (!results) return null;
-						if (!results[2]) return '';
-						return decodeURIComponent(results[2].replace(/\+/g, " "));
+				function getParameterByName(name, url) {
+					if (!url) url = window.location.href;
+					name = name.replace(/[\[\]]/g, "\\$&");
+					var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+						results = regex.exec(url);
+					if (!results) return null;
+					if (!results[2]) return '';
+					return decodeURIComponent(results[2].replace(/\+/g, " "));
 				}
 
-				function load_serie_openings()
-				{
-					for (var i = 0; i < serie_info['Openings'].length; ++i)
-					{
+				function load_serie_openings() {
+					for (var i = 0; i < serie_info['Openings'].length; ++i) {
+						var url = 'https://www.vegeta.cat/cdn/' + encodeURL(serie_info['Openings'][i].Url);
 						var row_color = (i % 2 == 0) ? 240 : 250;
 						var html_to_append = "<ul style=\"list-style-type: none;\">";
-						html_to_append += "<li style=\"cursor: pointer; cursor: hand;\">";
+						html_to_append += "<li style=\"cursor: pointer;\">";
 						html_to_append += "<div class=\"eac-item\">";
-						html_to_append += "<a onClick=\"play_video('https://www.vegeta.cat/cdn/"+ encodeURIComponent(serie_info['Openings'][i].Url) + "')\" class=\"series-item\" style=\"display:block; background:rgb(" + row_color+", " + row_color+", " + row_color + ") none repeat scroll 0 0;\"><table style=\"width: 100%;\"><tr>";
+						html_to_append += `<a data-url="${url}" onClick="play_video('${url}')" class="series-item" style="display:block; background:rgb(${row_color}, ${row_color}, ${row_color});"><table style="width: 100%;"><tr>`;
 						html_to_append += "<td><span class=\"serie-list\">" + serie_info['Openings'][i].Title + "</span></td>";
 						html_to_append += "</tr></table></a></div></li></ul>";
 						html_to_append += "<ul style=\"height:1px; background-color:#DCDCDC;\"></ul>";
@@ -130,57 +116,53 @@
 					}
 				}
 
-				function load_serie_endings()
-				{
-					for (var i = 0; i < serie_info['Endings'].length; ++i)
-					{
+				function load_serie_endings() {
+					for (var i = 0; i < serie_info['Endings'].length; ++i) {
+						var url = 'https://www.vegeta.cat/cdn/' + encodeURL(serie_info['Endings'][i].Url);
 						var row_color = (i % 2 == 0) ? 240 : 250;
 						var html_to_append = "<ul style=\"list-style-type: none;\">";
-						html_to_append += "<li style=\"cursor: pointer; cursor: hand;\">";
+						html_to_append += "<li style=\"cursor: pointer;\">";
 						html_to_append += "<div class=\"eac-item\">";
-						html_to_append += "<a onClick=\"play_video('https://www.vegeta.cat/cdn/" + encodeURIComponent(serie_info['Endings'][i].Url) + "')\" class=\"series-item\" style=\"display:block; background:rgb(" + row_color+", " + row_color + ", " + row_color + ") none repeat scroll 0 0;\"><table style=\"width: 100%;\"><tr>";
+						html_to_append += `<a data-url="${url}" onClick="play_video('${url}')" class="series-item" style="display:block; background:rgb(${row_color}, ${row_color}, ${row_color});"><table style="width: 100%;"><tr>`;
 						html_to_append += "<td><span class=\"serie-list\">" + serie_info['Endings'][i].Title + "</span></td>";
 						html_to_append += "</tr></table></a></div></li></ul>";
 						html_to_append += "<ul style=\"height:1px; background-color:#DCDCDC;\"></ul>";
-						
+
 						$("#eac-conatainer-series-list-endings").append(html_to_append);
 					}
 				}
 
-				$(window).resize(function() {
+				$(window).resize(function () {
 					var serie_list_width = $("#serie-list").css("width");
 					$("#player").css("width", serie_list_width);
-					player.style.height = (player.offsetWidth * 0.5) + "px";
+					player.el().style.height = (player.el().offsetWidth * 0.5) + "px";
 				});
 			});
 		});
-		function play_video(url)
-		{
+
+		function play_video(url) {
 			$("html, body").animate({ scrollTop: 0 }, "slow");
-			player.source = {
-				type: 'video',
-				title: '',
-				sources: [
-					{
-						src: url,
-						type: 'video/mp4'
-					}
-				]
-			}
+
+			player.src({ src: url, type: 'video/mp4' });
 			player.play();
+
+			// Highlight the currently playing video
+			$(".series-item").removeClass("playing");
+			$(`.series-item[data-url="${url}"]`).addClass("playing");
 		}
 	</script>
 
 	<style>
-		.plyr video {
-			display:block; 
-			margin-left:auto; 
-			margin-right:auto; 
-			max-width:100%; 
-			width:1100px;
+		.video-js {
+			display: block;
+			margin: 0 auto;
+			width: 100%;
+			aspect-ratio: 16 / 9;
+			height: auto;
 		}
-		.plyr:fullscreen video {
-			width:100%;
+		.playing {
+			border-left: 6px solid #16a085;
+			background-color: #e0f7f1 !important;
 		}
 	</style>
 </head>
@@ -190,7 +172,7 @@
 
 	<section class="main clearfix">
 		<div id="search" style="display:none;">
-			<input id="buscador_serie" placeholder="Buscar sèries ..."/>
+			<input id="buscador_serie" placeholder="Buscar sèries ..." />
 		</div>
 		
 		<section class="wrapper" style="display:none;">
@@ -198,18 +180,21 @@
 				<div style="margin-top:15px; margin-bottom:30px;">
 					<h1 id="serie-title" style="font-weight:normal; text-align: center;"></h1>
 				</div>
-				
-				<video controls crossorigin playsinline id="player">
-					<source src="" type="video/mp4"/>
-				</video>
+
+				<video
+					id="player"
+					class="video-js vjs-default-skin"
+					controls
+					playsinline
+					preload="auto"
+					data-setup="{}"
+				></video>
 
 				<div id="serie-list" style="display:flex; margin-top: 20px;">
 					<div id="serie-openings" style="width:50%; flex: 1; border-right: 1px solid #16a085;">
 						<div class="work-content-section clearfix">
 							<div class="series-navigationBar" style="margin-top: 0px;">
-								<ul>
-									<li class="series-list-title">Openings</li>
-								</ul>
+								<ul><li class="series-list-title">Openings</li></ul>
 							</div>
 							<div id="eac-conatainer-series-list-openings" class="easy-autocomplete-container"></div>
 						</div>
@@ -218,11 +203,10 @@
 					<div id="serie-endings" style="width:50%; flex: 1;">
 						<div class="work-content-section clearfix">
 							<div class="series-navigationBar" style="margin-top: 0px;">
-							<ul>
-								<li class="series-list-title">Endings</li>
-							</ul>
+								<ul><li class="series-list-title">Endings</li></ul>
+							</div>
+							<div id="eac-conatainer-series-list-endings" class="easy-autocomplete-container"></div>
 						</div>
-						<div id="eac-conatainer-series-list-endings" class="easy-autocomplete-container"></div>
 					</div>
 				</div>
 			</div>
