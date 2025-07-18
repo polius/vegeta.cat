@@ -18,14 +18,9 @@
     - Responsive code
   
 /*  General CSS*/
-body{
-    background: #FFFAFA;
-}
-
 .wrapper{
     width: 92.72727272727273%;
     margin: 0 auto;
-    background-color: #FFFAFA;
 }
 
 header ul.social li a,
@@ -214,7 +209,6 @@ header .close_menu
     box-sizing: border-box;
     position: relative;
     z-index: 55;
-    background: #FFFAFA;
     clear: both;
 }
 
@@ -375,7 +369,6 @@ h1:hover{
     font-size: 15px;
     line-height: 22px;
     padding: 20px 0px;
-    background: #FFFAFA;
 
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
