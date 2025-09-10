@@ -299,6 +299,21 @@
             }
         ]
     },
+    "Conan el noi del futur":
+    {
+        "Openings": [
+            {
+                "Title": "Opening 1",
+                "Url": "Conan el noi del futur/openings/Conan el noi del futur - Opening 1 (Català).mp4"
+            }
+        ],
+        "Endings": [
+            {
+                "Title": "Ending 1",
+                "Url": "Conan el noi del futur/endings/Conan el noi del futur - Ending 1 (Català).mp4"
+            }
+        ]
+    },
     "Corrector Yui":
     {
         "Openings": [
@@ -1632,6 +1647,16 @@
         ],
         "Endings": []
     },
+    "Misha, el petit ós":
+    {
+        "Openings": [
+            {
+                "Title": "Opening 1",
+                "Url": "Misha, el petit ós/openings/Misha, el petit ós - Opening 1 (Català).mp4"
+            }
+        ],
+        "Endings": []
+    },
     "Montana":
     {
         "Openings": [
@@ -1911,9 +1936,18 @@
             {
                 "Title": "Opening 1",
                 "Url": "Ranma/openings/Ranma - Opening 1 (Català).mp4"
+            },
+            {
+                "Title": "Opening 2",
+                "Url": "Ranma/openings/Ranma - Opening 2 (Català).mp4"
             }
         ],
-        "Endings": []
+        "Endings": [
+            {
+                "Title": "Ending 2",
+                "Url": "Ranma/endings/Ranma - Ending 2 (Català).mp4"
+            }
+        ]
     },
     "Rantaro":
     {
@@ -2070,6 +2104,16 @@
                 "Url": "Shin Chan/endings/Shin Chan - Ending 2 (Català).mp4"
             }
         ]
+    },
+    "Simbad":
+    {
+        "Openings": [
+            {
+                "Title": "Opening 1",
+                "Url": "Simbad/openings/Simbad - Opening 1 (Català).mp4"
+            }
+        ],
+        "Endings": []
     },
     "Slam Dunk, la gran esmaixada":
     {
